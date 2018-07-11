@@ -5,6 +5,7 @@ import axios from 'axios';
 import './mainBody.css';
 import * as disAct from '../store/dispatchActions';
 import resStore from '../store/ResStore';
+import FileMap from './FileMap';
 
 export default class MainBody extends Component{
     
@@ -14,7 +15,7 @@ export default class MainBody extends Component{
             devID:"",
             uname:"",
             pswd:"",
-            files:[],
+            files:"",
             isLogin:false
         }    
     }
@@ -35,22 +36,25 @@ export default class MainBody extends Component{
         console.log("Button Clicked",this.state.devID,this.state.uname,this.state.pswd);
         axios.post('http://localhost:5000',{data}).then(res=>{
            // const req = JSON.parse(res);
-           var resData = res.data.data; 
-          if(res.data.data !== null){
-            console.log(res.data.data);
-            this.setState({files:res.data.data});
+            
+           var s = "status"
+           console.log(res[s])
+          if(res[s]===200){
+            var resData = res.data.data;
+            console.log(res);
             disAct.loggedIn(data);
+            console.log("IsLogin set to true");
+            this.setState({
+                files:resData,
+                isLogin:true
+            })
         }  
           });
 
       }
       componentWillMount(){
-          
         resStore.on("loggedIn",()=>{
             console.log("store working");
-            this.setState({
-                isLogin:true
-            })
         });
       }
 
@@ -84,7 +88,9 @@ export default class MainBody extends Component{
 
 var replyText = <div>
 
-        <h1>ITS WORKING</h1>
+        <h3>DeviceID: {this.state.devID}</h3><h3>UserName: {this.state.uname}</h3>
+        <FileMap data={this.state.files}/>
+        
 
 </div> 
 

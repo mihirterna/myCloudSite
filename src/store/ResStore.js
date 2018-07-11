@@ -27,7 +27,7 @@ class ResStore extends EventEmitter{
     }
 }
 
-const resStore = new ResStore;
+const resStore = new ResStore();
 dispatcher.register(resStore.handleActions.bind(resStore));
 window.dispatcher = dispatcher;
 export default resStore;
