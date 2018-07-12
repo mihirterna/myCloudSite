@@ -4,32 +4,40 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import folder from '../icons/outline_folder_black_18dp.png';
-import { Icon, IconButton } from '../../node_modules/@material-ui/core';
+import { Icon, IconButton, withStyles } from '../../node_modules/@material-ui/core';
+import * as FontAwesome from 'react-icons/lib/fa'
 
+const styles =({
 
+})
 
 class MediaControlCard extends Component {
+
+  retFold(){
+    if(this.props.t==="d"){
+      return <FontAwesome.FaFolderO className="folder"/>
+    }
+    else return <FontAwesome.FaFileO className="folder"/>
+  }
+
   render(){
+    const {classes} = this.props;
+
   return (
-    <div>
-      <Card className="card" >
-      <CardMedia className="icon"
-          image="../icons/outline_folder_black_18dp.png"
-          title="Live from space album cover">
+      <Card className="card">
+      <CardMedia
+          title="folder">
+          {this.props.t==="d"? <FontAwesome.FaFolderO className="folder"/>:<FontAwesome.FaFileO className="folder"/>}
         </CardMedia>
         
-        <div >
-          <CardContent >
-            <Typography variant="headline">{this.props.i}</Typography>
+          <CardContent className="content" >
+            <Typography variant="headline">{this.props.n}</Typography>
             <Typography variant="subheading" color="textSecondary">
-              {this.props.n}
+              {this.props.s}
             </Typography>
           </CardContent>
-        </div>
       </Card>
-    </div>
   );
 }
 }
-export default(MediaControlCard);
+export default withStyles(styles) (MediaControlCard);

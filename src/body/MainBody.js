@@ -40,7 +40,7 @@ export default class MainBody extends Component{
            var s = "status"
            console.log(res[s])
           if(res[s]===200){
-            var resData = res.data.data;
+            var resData = res.data;
             console.log(res);
             disAct.loggedIn(data);
             console.log("IsLogin set to true");

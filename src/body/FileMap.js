@@ -10,7 +10,7 @@ export default class FileMap extends Component{
         };
     }
     render(){
-        var d = JSON.parse(JSON.stringify(this.props.data));
+        var d = this.props.data;
         console.log(d);
         // var usersWithName = Object.keys(d).map(function(key) {
         //     var user = d[key];
@@ -22,9 +22,8 @@ export default class FileMap extends Component{
          return(
              <div>
                {
-                   Object.keys(d).map(function(key,i){
-                       var k = 1 + i; 
-                   return <div><Card n={d[key][k]} i={i}/></div>
+                   Object.keys(d).map(function(key){
+                   return <div><Card n={d[key]["name"]} s={d[key]["size"]} t={d[key]["type"]}/></div>
                    })}
                    
                                  </div>

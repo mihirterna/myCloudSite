@@ -1,9 +1,14 @@
 .card{
-    display: flex;
+    display:flex;
+    flex-direction: row;
     margin: 5px;
     border-radius: 5px;
 }
-.icon{
-    display: flex;
-    background-color: blue
+.folder{
+    height: 30px;
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 30px;
+}
+.content{
 }
