@@ -6,9 +6,7 @@ import {Navbar,Nav,NavItem,NavDropdown,MenuItem} from 'react-bootstrap';
 //import axios from 'axios';
 
 export default class header extends Component{
-    constructor(){
-        super();   
-    }
+    
       render(){
           return(
           <Navbar inverse collapseOnSelect>

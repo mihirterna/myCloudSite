@@ -29,14 +29,14 @@ export default class MainBody extends Component{
     
       onClick(e){
         const data = {
+            head:"getList",
             devID:this.state.devID,
             uname:this.state.uname,
-            pswd:this.state.pswd
+            pswd:this.state.pswd,
+            dir:"/home/"+this.state.uname,
         }
-        console.log("Button Clicked",this.state.devID,this.state.uname,this.state.pswd);
-        axios.post('http://localhost:5000',{data}).then(res=>{
+        axios.post('http://192.168.31.91:5000',{data}).then(res=>{
            // const req = JSON.parse(res);
-            
            var s = "status"
            console.log(res[s])
           if(res[s]===200){
@@ -48,13 +48,15 @@ export default class MainBody extends Component{
                 files:resData,
                 isLogin:true
             })
-        }  
-          });
+        }
+        else{
+            alert('unknown respond',res);
+        }})
 
       }
       componentWillMount(){
         resStore.on("loggedIn",()=>{
-            console.log("store working");
+            console.log("store working" , resStore.getDir());
         });
       }
 

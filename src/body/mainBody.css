@@ -27,3 +27,9 @@
     width: 300px;
     margin: 100px;
 }
+.dirRow{
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+}
