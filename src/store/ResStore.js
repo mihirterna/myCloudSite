@@ -22,7 +22,10 @@ class ResStore extends EventEmitter{
     handleActions(action){
         switch(action.type){
             case "loggedIn":
-            this.setData(action.data);
+                this.setData(action.data);
+                break;
+            default:
+                return;
         }
     }
 }
