@@ -23,7 +23,7 @@ const theme = createMuiTheme({
       },
     },
   });
-
+  
 export default class MainBody extends Component{
     
     constructor(){
@@ -33,7 +33,7 @@ export default class MainBody extends Component{
             uname:"",
             pswd:"",
             files:"",
-            isLogin:false,
+            isLogin: false,
             showPassword: false
         }    
     }
@@ -51,34 +51,38 @@ export default class MainBody extends Component{
     handleClickShowPassword = () => {
         this.setState(state => ({ showPassword: !state.showPassword }));
     };
-
     
     onClick(e){
         const data = {
-            devID: this.state.devID,
-            uname: this.state.uname,
-            pswd: this.state.pswd
+            head:"getList",
+            devID:this.state.devID,
+            uname:this.state.uname,
+            pswd:this.state.pswd,
+            dir:this.state.uname,
         }
         if(data.devID === "" || data.uname === "" || data.pswd === "") return;
-        axios.post('http://localhost:5000', data).then(res=>{
+        axios.post('http://192.168.1.100:5000', data).then(res=>{
             if(res.status === 200){
-                var resData = res.data.data;
+                const resData = res.data;
                 disAct.loggedIn(data);
                 this.setState({
                     files: resData,
                     isLogin: true
                 });
             }  
+        }).catch(error => {
+            alert(error);
         });
     }
+
     componentWillMount(){
         resStore.on("loggedIn",()=>{
-            console.log("store working");
+            console.log("store working" , resStore.getDir());
         });
     }
 
     render(){
-        var samForm = 
+        const samForm = 
             <div className="wrapper">
                 <h2>Login</h2>
                 <form className="samForm">
@@ -130,19 +134,14 @@ export default class MainBody extends Component{
                     </MuiThemeProvider >
                 </form>
             </div>
-
-        var replyText = 
+            
+        const replyText = 
             <div>
                 <h3>DeviceID: {this.state.devID}</h3>
                 <h3>UserName: {this.state.uname}</h3>
                 <FileMap data={this.state.files}/>
             </div> 
 
-        if(!this.state.isLogin){
-            return (samForm);
-        }
-        if(this.state.isLogin){
-            return(replyText);
-        }
+        return (this.state.isLogin)?replyText:samForm;
     }
 }

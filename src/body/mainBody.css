@@ -37,3 +37,7 @@
     margin: 0 auto;
     width: 80%;
 }
+.dirRow{
+    display: flex;
+    flex-direction: row;
+}
