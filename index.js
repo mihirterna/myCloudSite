@@ -16,8 +16,7 @@ app.post('/',function (req, res) {
       break;
 	  
       case "download":
-      console.log("download req");
-      res.download("/home/mihir/test/Songs/Good to be young.mp3","song.mp3", function (err) {
+      res.download(req.body.data.dir+"/"+req.body.data.fName,req.body.data.fName, function (err) {
       if (err){
        console.log(err);
         }

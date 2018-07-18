@@ -1,11 +1,29 @@
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import {TextField,Button, IconButton, InputAdornment} from '@material-ui/core/';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import axios from 'axios';
 import './mainBody.css';
 import * as disAct from '../store/dispatchActions';
 import resStore from '../store/ResStore';
 import FileMap from './FileMap';
+import {Visibility, VisibilityOff} from '@material-ui/icons';
+
+const theme = createMuiTheme({
+    overrides: {
+      MuiButton: {
+        root: {
+          background: 'linear-gradient(45deg, #0f0c29, #302b63, #24243e)',
+          borderRadius: 3,
+          border: 0,
+          color: 'white',
+          height: 48,
+          padding: '0 30px',
+          boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        },
+      },
+    },
+  });
+
 
 export default class MainBody extends Component{
     
@@ -16,7 +34,8 @@ export default class MainBody extends Component{
             uname:"",
             pswd:"",
             files:"",
-            isLogin:false
+            isLogin:false,
+            showPassword: false
         }    
     }
 
@@ -25,6 +44,15 @@ export default class MainBody extends Component{
           [name]: event.target.value,
         });
       };
+
+      handleMouseDownPassword = event => {
+        event.preventDefault();
+    };
+
+    handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
+    };
+
 
     
       onClick(e){
@@ -62,31 +90,57 @@ export default class MainBody extends Component{
 
       render(){
         var samForm = 
-        <form className="samForm">
-        <TextField
-      id="devID"
-      label="Device ID"
-      className="devID"
-      value={this.state.devID}
-      onChange={this.handleChange('devID')}
-      margin="normal"
-    /><TextField
-    id="uname"
-    label="User Name"
-    className="uname"
-    value={this.state.uname}
-    onChange={this.handleChange('uname')}
-    margin="normal"
-  />
-  <TextField
-  id="pswd"
-  label="Password"
-  className="pswd"
-  value={this.state.pswd}
-  onChange={this.handleChange('pswd')}
-  margin="normal"
-/>
-<Button variant="contained" color="primary" onClick={this.onClick.bind(this)}>Test</Button></form>
+            <div className="wrapper">
+                <h2>Login</h2>
+                <form className="samForm">
+                    <TextField
+                        required
+                        id="devID"
+                        label="Device ID"
+                        className="devID"
+                        value={this.state.devID}
+                        onChange={this.handleChange('devID')}
+                        margin="normal" />
+                    <TextField
+                        required
+                        id="uname"
+                        label="User Name"
+                        className="uname"
+                        value={this.state.uname}
+                        onChange={this.handleChange('uname')}
+                        margin="normal" />
+                    <TextField
+                        required
+                        type={this.state.showPassword ? 'text' : 'password'}
+                        id="pswd"
+                        label="Password"
+                        className="pswd"
+                        value={this.state.pswd}
+                        onChange={this.handleChange('pswd')}
+                        margin="normal" 
+                        InputProps={{                        
+                            endAdornment: 
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="Toggle password visibility"
+                                        onClick={this.handleClickShowPassword}
+                                        onMouseDown={this.handleMouseDownPassword} >
+                                        {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                        }} />
+                    <MuiThemeProvider theme={theme}>
+                        <Button
+                            type="submit"
+                            style={{marginTop: 20}}
+                            variant="contained"
+                            color="primary"
+                            onClick={this.onClick.bind(this)}>
+                                Test
+                        </Button>
+                    </MuiThemeProvider >
+                </form>
+            </div>
 
 var replyText = <div>
 

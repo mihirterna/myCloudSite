@@ -24,6 +24,20 @@ class MediaControlCard extends Component {
     var data = this.state.fName
     disAct.dirChanged(data);
   }
+  fileDW(){
+    var data = {
+      head:"download",
+      dir:resStore.getDir(),
+      fName:this.state.fName
+  }
+  console.log(data.dir,this.state.fName)
+  axios.post('http://192.168.31.91:5000',{data},{responseType:'blob'}).then(res=>{
+      var s = "status"
+    if(res[s]===200){
+      fileDownload(res.data,data.fName)
+  }
+  });
+}
 
   retFold(){
     return(
@@ -51,7 +65,7 @@ class MediaControlCard extends Component {
             {this.props.s/1000000} MB
           </Typography>
         </CardContent>
-        <Button variant="contained" color="primary">Download</Button>   
+        <Button variant="contained" color="primary" onClick={this.fileDW.bind(this)}>Download</Button>   
     </Card>
     )
   }
