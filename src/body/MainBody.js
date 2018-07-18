@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import {Button, InputAdornment, IconButton, TextField } from '@material-ui/core';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import {Visibility, VisibilityOff} from '@material-ui/icons';
-import axios from 'axios';
+import { Button, InputAdornment, IconButton, TextField } from '@material-ui/core';
+import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 import './mainBody.css';
-import * as disAct from '../store/dispatchActions';
-import resStore from '../store/ResStore';
 import FileMap from './FileMap';
 
 const theme = createMuiTheme({
@@ -22,27 +21,29 @@ const theme = createMuiTheme({
         },
       },
     },
-  });
+});
+
+const mapStateToProps = state => {
+    return {
+        uid: state.auth.uid,
+        uname: state.auth.uname,
+        password: state.auth.password,
+        isLogin: state.auth.isLogin,
+        files: state.auth.files,
+        err: state.auth.err,
+        head: state.auth.head,
+        dir: state.auth.uname
+    };
+};
   
-export default class MainBody extends Component{
+class MainBody extends Component{
     
     constructor(){
         super();
         this.state={
-            devID:"",
-            uname:"",
-            pswd:"",
-            files:"",
-            isLogin: false,
             showPassword: false
         }    
     }
-
-    handleChange = name => event => {
-        this.setState({
-            [name]: event.target.value
-        });
-    };
 
     handleMouseDownPassword = event => {
         event.preventDefault();
@@ -52,55 +53,64 @@ export default class MainBody extends Component{
         this.setState(state => ({ showPassword: !state.showPassword }));
     };
     
-    onClick(e){
+    onLoginClicked(){
         const data = {
-            head:"getList",
-            devID:this.state.devID,
-            uname:this.state.uname,
-            pswd:this.state.pswd,
-            dir:this.state.uname,
+            head: this.props.head,
+            devID: this.props.uid,
+            uname: this.props.uname,
+            pswd: this.props.password,
+            dir: this.props.uname
         }
-        if(data.devID === "" || data.uname === "" || data.pswd === "") return;
-        axios.post('http://192.168.1.100:5000', data).then(res=>{
-            if(res.status === 200){
-                const resData = res.data;
-                disAct.loggedIn(data);
-                this.setState({
-                    files: resData,
-                    isLogin: true
-                });
-            }  
-        }).catch(error => {
-            alert(error);
-        });
+        alert(data.head+data.devID+data.uname+data.pswd+data.dir);
+        // if(data.devID === '' || data.uname === '' || data.pswd === '') return;
+        this.props.loginUser(data);
     }
 
-    componentWillMount(){
-        resStore.on("loggedIn",()=>{
-            console.log("store working" , resStore.getDir());
-        });
+    componentDidUpdate() {
+        if(this.props.err) alert(this.props.err);
+    }
+
+    componentDidMount() {
+        this.props.headChanged("getList");
+    }
+
+    onIdChanged(e) {
+        this.props.idChanged(e.target.value);
+    }
+
+    onUnameChanged(e) {
+        this.props.unameChanged(e.target.value);
+    }
+
+    onPasswordChanged(e) {
+        this.props.passwordChanged(e.target.value);
+    }
+
+    alertError(){
+        if(this.props.err) alert(this.props.err);
     }
 
     render(){
         const samForm = 
             <div className="wrapper">
                 <h2>Login</h2>
+                {this.alertError()}
                 <form className="samForm">
                     <TextField
                         required
                         id="devID"
                         label="Device ID"
                         className="devID"
-                        value={this.state.devID}
-                        onChange={this.handleChange('devID')}
+                        value={this.props.uid}
+                        onChange={this.onIdChanged.bind(this)}
                         margin="normal" />
                     <TextField
                         required
                         id="uname"
                         label="User Name"
                         className="uname"
-                        value={this.state.uname}
-                        onChange={this.handleChange('uname')}
+                        value={this.props.uname}
+                        onChange={this.onUnameChanged.bind(this)}
                         margin="normal" />
                     <TextField
                         required
@@ -108,8 +118,8 @@ export default class MainBody extends Component{
                         id="pswd"
                         label="Password"
                         className="pswd"
-                        value={this.state.pswd}
-                        onChange={this.handleChange('pswd')}
+                        value={this.props.password}
+                        onChange={this.onPasswordChanged.bind(this)}
                         margin="normal" 
                         InputProps={{                        
                             endAdornment: 
@@ -128,7 +138,7 @@ export default class MainBody extends Component{
                             style={{marginTop: 20}}
                             variant="contained"
                             color="primary"
-                            onClick={this.onClick.bind(this)}>
+                            onClick={() => this.onLoginClicked()}>
                                 Test
                         </Button>
                     </MuiThemeProvider >
@@ -137,11 +147,13 @@ export default class MainBody extends Component{
             
         const replyText = 
             <div>
-                <h3>DeviceID: {this.state.devID}</h3>
-                <h3>UserName: {this.state.uname}</h3>
-                <FileMap data={this.state.files}/>
+                <h3>DeviceID: {this.props.uid}</h3>
+                <h3>UserName: {this.props.uname}</h3>
+                <FileMap data={this.props.files} />
             </div> 
 
-        return (this.state.isLogin)?replyText:samForm;
+        return (this.props.isLogin)?replyText:samForm;
     }
-}
+};
+
+export default connect(mapStateToProps, actions)(withStyles(theme)(MainBody));
