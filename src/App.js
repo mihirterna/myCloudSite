@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import ReduxThunk from 'redux-thunk';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import './App.css';
 import MainBody from './body/MainBody';
+import reducers from './reducers';
+import './App.css';
 
 const THEME = createMuiTheme({
   typography: {
@@ -15,11 +19,14 @@ const THEME = createMuiTheme({
 
 class App extends Component {
   render() {
+    const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     return (
       <MuiThemeProvider theme={THEME}>
-        <div>
-          <MainBody/>
-        </div>
+        <Provider store={store}>
+          <div>
+            <MainBody/>
+          </div>
+        </Provider>
       </MuiThemeProvider >
     );
   }

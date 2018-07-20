@@ -38,6 +38,12 @@
     width: 80%;
 }
 .dirRow{
+    display: block;
+}
+.label{
+    width: 100%;
+}
+.dirChar{
     display: flex;
-    flex-direction: row;
+    flex-direction: row
 }

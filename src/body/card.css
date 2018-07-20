@@ -2,11 +2,11 @@
     display:flex;
     flex-direction: row;
     margin: 5px;
+    height: 50px;
     border-radius: 5px;
 }
 .folder{
     height: 30px;
     margin-top: 10px;
     margin-left: 10px;
-    width: 30px;
 }

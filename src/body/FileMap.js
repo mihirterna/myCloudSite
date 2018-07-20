@@ -1,46 +1,37 @@
 import React, { Component } from 'react';
-import Card from './card'
-import * as disAct from '../store/dispatchActions';
-import resStore from '../store/ResStore';
-import axios from 'axios'
+import Card from './card';
+import * as actions from '../actions';
+import { connect } from 'react-redux';
 import DirRow from './dirRow'
 
-export default class FileMap extends Component{
-    constructor(props){
-        super(props);
-        this.state={
-            //files:this.props.data
-            files:props.data
-        };
-    }
-    componentWillMount(){
-        resStore.on("dirChanged",()=>{
-        var directory = resStore.getDir()
-        var data = {
-            head:"getList",
-            dir:directory
-        }
-        axios.post('http://localhost:5000',{data}).then(res=>{
-            var s = "status"
-          if(res[s]===200){
-            var resData = res.data;
-             this.setState({
-                 files:resData
-             })
-        }
-        })
-        });
+const mapStateToProps = state => {
+    return {
+        files: state.auth.files,
+        dir: state.auth.dir,
+        head: state.auth.head,
+        err: state.auth.err
+    };
+};
+
+class FileMap extends Component{
+
+   
+
+    alertError(){
+        if(this.props.err) console.log(this.props.err);
     }
 
     render(){
-        var d = this.state.files;
+        var d = this.props.files;
          return(
-             <div>
-                 < DirRow/>
-                  { Object.keys(d).map(function(key){
-                   return <div key={key}><Card  n={d[key]["name"]} t={d[key]["type"]} s={d[key]["size"]} la={d[key]["la"]} lm={d[key]["lm"]} birth={d[key]["birth"]}/></div>
-                   })}
-                    </div>
+            <div>
+                <DirRow />
+                {Object.keys(d).map(function(key){
+                    return <div key={key}><Card  n={d[key]["name"]} t={d[key]["type"]} s={d[key]["size"]} la={d[key]["la"]} lm={d[key]["lm"]} birth={d[key]["birth"]}/></div>
+                })}
+            </div>
          );
     }
 }
+
+export default connect(mapStateToProps, actions)(FileMap);

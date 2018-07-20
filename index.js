@@ -44,8 +44,6 @@ app.post('/',function (req, res) {
 	  res.json(list);
       break;
 	  
-	  
-	  
       default:
 	  console.log("unknown req",req);
       break;

@@ -1,29 +1,41 @@
 import React, { Component } from 'react';
-import * as disAct from '../store/dispatchActions';
-import resStore from '../store/ResStore';
 import {Button} from '@material-ui/core';
+import * as actions from '../actions';
+import { connect } from 'react-redux';
 
-export default class DirChar extends Component{
+const mapStateToProps = state => {
+    return {
+        dir: state.auth.dir
+    };
+};
+
+class DirChar extends Component{
+
     constructor(props){
         super(props)
-        this.state={
-            dir:resStore.getDir,
-            fName:props.n,
-        }
+        this.props.headChanged("getList");
     }
+
     onClick(){
-        disAct.dirBack(this.state.fName)
+        var path = this.props.dir.split("/");
+        const data = {
+            head: "getList", //head: undefined even if  this.props.headChanged("getList");
+            dir: path.slice(0, path.indexOf(this.props.n)+1).join("/")
+        };
+        this.props.dirChanged(data);
     }
+
     componentWillReceiveProps(newProp){
-        this.setState({
-          fName:newProp.n
-        })
-      }
+       this.props=newProp
+    }
+
     render(){
         return(
             <div>
-                <Button variant="outlined" onClick={this.onClick.bind(this)}>{this.state.fName}/</Button>
+                <Button variant="outlined" onClick={this.onClick.bind(this)}>{this.props.n}/</Button>
             </div>
-        )
+        );
     }
-}
+};
+
+export default connect(mapStateToProps, actions)(DirChar);
