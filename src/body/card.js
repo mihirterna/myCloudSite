@@ -33,7 +33,6 @@ this.props.dirChanged(data);
 
 componentWillReceiveProps(newProp){
        this.props=newProp
-     
 }
 
 fileDW(){

@@ -97,6 +97,7 @@ class MainBody extends Component{
                         required
                         id="devID"
                         label="Device ID"
+                        autoComplete="on"
                         className="devID"
                         value={this.props.uid}
                         onChange={this.onIdChanged.bind(this)}
@@ -106,6 +107,7 @@ class MainBody extends Component{
                         id="uname"
                         label="User Name"
                         className="uname"
+                        autoComplete="on"
                         value={this.props.uname}
                         onChange={this.onUnameChanged.bind(this)}
                         margin="normal" />
@@ -114,6 +116,7 @@ class MainBody extends Component{
                         type={this.state.showPassword ? 'text' : 'password'}
                         id="pswd"
                         label="Password"
+                        autoComplete="on"
                         className="pswd"
                         value={this.props.password}
                         onChange={this.onPasswordChanged.bind(this)}
