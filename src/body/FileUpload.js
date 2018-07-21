@@ -4,7 +4,6 @@ import * as actions from '../actions';
 import { connect } from 'react-redux';
 import './card.css'
 import axios from 'axios';
-import Dropzone from 'react-dropzone'
 
 const mapStateToProps = state => {
     return {
@@ -16,27 +15,43 @@ const mapStateToProps = state => {
 class FileUpload extends Component{
     constructor(){
         super()
-        this.onDrop = this.onDrop.bind(this)
-    }
-    onDrop(file){
-        file.forEach(file => {
-        console.log(file.name)
-        var data={
-          head:"upload",
-          dir:this.props.dir,
-          file:file
+        this.state={
+            files:null
         }
-        axios.post('http://192.168.31.91:5000',{data}).then(res=>{
-
+        this.onDrop = this.onDrop.bind(this)
+        this.upload = this.upload.bind(this)
+    }
+    onDrop(event){
+        this.setState({
+            files: event.target.files
         })
+        Array.from(event.target.files).forEach(file => {
+        console.log(file.name)
+    })
+       
+    }
+    upload (event){
+        event.preventDefault()
+        Array.from(this.state.files).forEach(file => {
+            const data = new FormData()
+            data.append('upload',file,file.name)
+            axios.post('http://192.168.31.91:5000',{data}).then(res=>{
+                console.log(res)
+              })
         })
+        // const data={
+        //     head:"upload",
+        //     dir:this.props.dir,
+        //     files:this.state.files
+        //   }
     }
     render(){
         return(
             <div>
-               <Dropzone onDrop={(files) => this.onDrop(files)} style={{height:'14px'}}> 
-                <h3>Drop files</h3>
-                </Dropzone>
+                <form onSubmit={this.upload}>
+               <input type="file" name="file" onChange={this.onDrop} multiple/>
+               <input type="submit" value="submit"/>
+               </form>
             </div>
         )
     }

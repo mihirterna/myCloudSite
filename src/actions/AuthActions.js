@@ -58,10 +58,8 @@ const loginUserFailed = (dispatch, err) => {
 
 export const loginUser = (data) => {
     return (dispatch) => {
-        console.log("getList",{data})
         axios.post('http://192.168.31.91:5000', {data})
         .then(res => {
-            console.log("Res after loginUser: " + res.data);
             const deta = {d: res.data, head: data.head, dir: data.dir}
             if(res.status === 200) loginUserSuccess(dispatch,deta);
         }).catch(error => loginUserFailed(dispatch, error));
