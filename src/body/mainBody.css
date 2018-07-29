@@ -38,12 +38,15 @@
     width: 80%;
 }
 .dirRow{
-    display: block;
-}
-.label{
-    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    align-content: space-around;
 }
 .dirChar{
     display: flex;
-    flex-direction: row
+    flex-direction: row;
+    justify-content: space-around;
+
 }

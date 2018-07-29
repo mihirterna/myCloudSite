@@ -28,14 +28,20 @@ class FileUpload extends Component{
         Array.from(event.target.files).forEach(file => {
         console.log(file.name)
     })
-       
     }
     upload (event){
         event.preventDefault()
+        const config = {
+            onUploadProgress: progressEvent => console.log(Math.round( (progressEvent.loaded * 100) / progressEvent.total ))
+        }
         Array.from(this.state.files).forEach(file => {
             const data = new FormData()
-            data.append('upload',file,file.name)
-            axios.post('http://192.168.31.91:5000',{data}).then(res=>{
+            data.append('file',file)
+            axios.post('http://localhost:5000/up/encryptedKey?dir='+this.props.dir,data,config).then(res=>{
+                const data = {
+                    dir : this.props.dir
+                }
+                this.props.dirChanged(data)
                 console.log(res)
               })
         })

@@ -5,7 +5,8 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILED,
     HEAD_CHANGED,
-    DIR_CHANGED
+    DIR_CHANGED,
+    MKDIR
 } from './types';
 import axios from 'axios';
 
@@ -13,6 +14,14 @@ export const idChanged = (text) => {
     return {
         type: ID_CHANGED,
         payload: text
+    };
+};
+
+
+export const mkdir = (boolean) => {
+    return {
+        type: MKDIR,
+        payload: boolean
     };
 };
 
@@ -58,7 +67,7 @@ const loginUserFailed = (dispatch, err) => {
 
 export const loginUser = (data) => {
     return (dispatch) => {
-        axios.post('http://192.168.31.91:5000', {data})
+        axios.post('http://localhost:5000/dir', {data})
         .then(res => {
             const deta = {d: res.data, head: data.head, dir: data.dir}
             if(res.status === 200) loginUserSuccess(dispatch,deta);
@@ -75,7 +84,7 @@ const dirChangedFailed = (dispatch, err) => {
 
 export const dirChanged = (data) => {
     return (dispatch) => {
-        axios.post('http://192.168.31.91:5000', {data})
+        axios.post('http://localhost:5000/dir', {data})
         .then(res => {
             if(res.status === 200){
                 const payload = {

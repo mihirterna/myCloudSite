@@ -4,9 +4,25 @@
     margin: 5px;
     height: 50px;
     border-radius: 5px;
+    justify-content: flex-start;
 }
 .folder{
-    height: 30px;
-    margin-top: 10px;
-    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 7%;
+}
+.content{
+    flex: 1;
+}
+.seperator{
+  height: 100%;
+  width: 1px;
+  background: black;
+}
+.icon{
+    font-size: 30px
+}
+.fileDwBtn{
+    float: right;
 }

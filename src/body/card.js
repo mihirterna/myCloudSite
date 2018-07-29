@@ -17,12 +17,7 @@ const mapStateToProps = state => {
 };
 
 class MediaControlCard extends Component {
-  constructor(props) {
-    super(props);
-    this.props.headChanged("getList");
-    console.log(this.props.dir)
-}
-
+  
 foldClick(){
   const data = {
     head: this.props.head, 
@@ -41,26 +36,41 @@ fileDW(){
     dir:this.props.dir,
     fName:this.props.n
 }
-console.log(data.dir,data.fName)
-axios.post('http://192.168.31.91:5000',{data},{responseType:'blob'}).then(res=>{
-    var s = "status"
-  if(res[s]===200){
-    fileDownload(res.data,data.fName)
-}
-});
-}
+const url = "http://localhost:5000/dw/d?dir="+this.props.dir+"&f="+data.fName
+window.location.href = url
 
+// axios.post('http://localhost:5000/dw/d?',{data},{responseType:'blob'}).then(res=>{
+//     var s = "status"
+//   if(res[s]===200){
+//     fileDownload(res.data,data.fName)
+// }
+// });
+}
+clickFolderHandle(){
+  console.log("FOLDER CLICKED")
+}
+clickFileHandle(e){
+  e.target.style.background = 'red'
+  console.log(e.target)
+
+  //document.querySelector('.folder').style.background = 'red'
+}
 retFold(){
   return(
-  <Card className="card" onClick={this.foldClick.bind(this)}>
+  <Card className="card">
   {/* <Button variant="outlined" onClick={this.foldClick.bind(this)}  className="card"> */}
-  <FontAwesome.FaFolderO className="folder"/>
-      <CardContent className="content" >
+  <div className="folder" onClick={this.clickFolderHandle.bind(this)}>
+  <FontAwesome.FaFolderO className="icon" />
+   </div>   
+   <div className="seperator"></div>
+   <div className="content" onClick={this.foldClick.bind(this)}>
+      <CardContent >
         <Typography variant="headline" style={{fontSize:'14px'}}>{this.props.n}</Typography>
         <Typography variant="subheading" color="textSecondary" style={{fontSize:'14px'}}>
           {this.props.s/1024} MB
         </Typography>
       </CardContent>
+      </div>
      {/* </Button> */}
   </Card>
   )
@@ -69,14 +79,17 @@ retFold(){
 retFile(){
   return(
   <Card className="card">
-   <FontAwesome.FaFileO className="folder"/>
+  <div className="folder" onClick={this.clickFileHandle.bind(this)}>
+   <FontAwesome.FaFileO className="icon"/>
+     </div> 
+     <div className="seperator"></div>
       <CardContent className="content" >
         <Typography variant="headline" style={{fontSize:'14px'}}>{this.props.n}</Typography>
         <Typography variant="subheading" color="textSecondary" style={{fontSize:'14px'}}>
           {this.props.s/1000000} MB
         </Typography>
       </CardContent>
-      <Button variant="contained" color="primary" onClick={this.fileDW.bind(this)}>Download</Button>   
+      <Button className="fileDwBtn" variant="contained" color="primary" onClick={this.fileDW.bind(this)}>Download</Button>   
   </Card>
   )
 }
