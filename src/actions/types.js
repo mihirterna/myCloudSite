@@ -7,3 +7,4 @@ export const LOGIN_USER = 'login_user';
 export const HEAD_CHANGED = 'head_changed';
 export const MKDIR = 'mkdir';
 export const DIR_CHANGED = 'dir_changed';
+export const SHOW_CB = 'show_cb';

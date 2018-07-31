@@ -6,9 +6,12 @@ import {
     LOGIN_FAILED,
     HEAD_CHANGED,
     DIR_CHANGED,
-    MKDIR
+    MKDIR,
+    SHOW_CB
 } from './types';
 import axios from 'axios';
+
+const checkedFiles = []
 
 export const idChanged = (text) => {
     return {
@@ -23,6 +26,27 @@ export const mkdir = (boolean) => {
         type: MKDIR,
         payload: boolean
     };
+};
+
+export const show_cb = (data) => {
+    if(data.clear) checkedFiles.length = 0
+    else if(data.delete)checkedFiles.splice( checkedFiles.indexOf(data.name), 1 )
+    else checkedFiles.push(data.name)
+
+    console.log('AuthAct ',checkedFiles)
+    if(Array.isArray(checkedFiles) && checkedFiles.length){
+        return {
+            type: SHOW_CB,
+            payload: true
+        };
+      }
+      else{
+        return {
+            type: SHOW_CB,
+            payload: false
+        };
+      }
+    
 };
 
 export const passwordChanged = (text) => {
