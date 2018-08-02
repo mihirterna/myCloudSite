@@ -5,7 +5,9 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILED,
     HEAD_CHANGED,
-    DIR_CHANGED
+    DIR_CHANGED,
+    MKDIR,
+    SHOW_CB
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -18,7 +20,9 @@ const INITIAL_STATE = {
     fName: "",
     err: "",
     dirList: [],
-    isLogin: false
+    isLogin: false,
+    mkdir:false,
+    cb_val:false
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -30,13 +34,17 @@ export default (state = INITIAL_STATE, action) => {
         case PASSWORD_CHANGED:
             return { ...state, password: action.payload };
         case LOGIN_SUCCESS:
-            return { ...state, files: action.payload, isLogin: true };
+            return { ...state, files: action.payload.d,dir: action.payload.dir, isLogin: true };
         case LOGIN_FAILED:
             return { ...state, err: action.payload.err };
         case HEAD_CHANGED:
             return { ...state, head: action.payload  };
         case DIR_CHANGED:
             return { ...state, files: action.payload.files, dir: action.payload.dir };
+        case MKDIR:
+            return {...state, mkdir:action.payload}
+        case SHOW_CB:
+            return {...state, cb_val:action.payload}
         default:
             return state; //eslint-disable-next-line
     };

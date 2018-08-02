@@ -5,15 +5,48 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILED,
     HEAD_CHANGED,
-    DIR_CHANGED
+    DIR_CHANGED,
+    MKDIR,
+    SHOW_CB
 } from './types';
 import axios from 'axios';
+
+const checkedFiles = []
 
 export const idChanged = (text) => {
     return {
         type: ID_CHANGED,
         payload: text
     };
+};
+
+
+export const mkdir = (boolean) => {
+    return {
+        type: MKDIR,
+        payload: boolean
+    };
+};
+
+export const show_cb = (data) => {
+    if(data.clear) checkedFiles.length = 0
+    else if(data.delete)checkedFiles.splice( checkedFiles.indexOf(data.name), 1 )
+    else checkedFiles.push(data.name)
+
+    console.log('AuthAct ',checkedFiles)
+    if(Array.isArray(checkedFiles) && checkedFiles.length){
+        return {
+            type: SHOW_CB,
+            payload: true
+        };
+      }
+      else{
+        return {
+            type: SHOW_CB,
+            payload: false
+        };
+      }
+    
 };
 
 export const passwordChanged = (text) => {
@@ -37,15 +70,16 @@ export const headChanged = (text) => {
     };
 };
 
-const loginUserSuccess = (dispatch, data, forDir) => {
+const loginUserSuccess = (dispatch, data) => {
     dispatch({
         type: LOGIN_SUCCESS,
         payload: data
     });
-    // dispatch({
-    //     type: DIR_CHANGED,
-    //     payload: forDir
-    // });
+    
+    //  dispatch({
+    //      type: DIR_CHANGED,
+    //      payload: forDir
+    //  });
 }
 
 const loginUserFailed = (dispatch, err) => {
@@ -57,10 +91,10 @@ const loginUserFailed = (dispatch, err) => {
 
 export const loginUser = (data) => {
     return (dispatch) => {
-        axios.post('http://localhost:5000', data)
+        axios.post('http://localhost:5000/dir', {data})
         .then(res => {
-            alert("Res after loginUser: " + res.data);
-            if(res.status === 200) loginUserSuccess(dispatch, res.data, {head: data.head, dir: data.dir});
+            const deta = {d: res.data, head: data.head, dir: data.dir}
+            if(res.status === 200) loginUserSuccess(dispatch,deta);
         }).catch(error => loginUserFailed(dispatch, error));
     };
 };
@@ -74,14 +108,13 @@ const dirChangedFailed = (dispatch, err) => {
 
 export const dirChanged = (data) => {
     return (dispatch) => {
-        axios.post('http://localhost:5000', data)
+        axios.post('http://localhost:5000/dir', {data})
         .then(res => {
             if(res.status === 200){
                 const payload = {
                     files: res.data,
                     dir: data.dir
                 };
-                alert(payload.files, payload.dir);
                 dispatch({
                     type: DIR_CHANGED,
                     payload

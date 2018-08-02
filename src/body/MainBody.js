@@ -29,10 +29,8 @@ const mapStateToProps = state => {
         uname: state.auth.uname,
         password: state.auth.password,
         isLogin: state.auth.isLogin,
-        files: state.auth.files,
         err: state.auth.err,
         head: state.auth.head,
-        dir: state.auth.uname
     };
 };
   
@@ -59,15 +57,14 @@ class MainBody extends Component{
             devID: this.props.uid,
             uname: this.props.uname,
             pswd: this.props.password,
-            dir: this.props.uname
+            dir: "/home/"+this.props.uname
         }
-        alert(data.head+data.devID+data.uname+data.pswd+data.dir);
         // if(data.devID === '' || data.uname === '' || data.pswd === '') return;
         this.props.loginUser(data);
     }
 
     componentDidUpdate() {
-        if(this.props.err) alert(this.props.err);
+        if(this.props.err) console.log(this.props.err);
     }
 
     componentDidMount() {
@@ -87,7 +84,7 @@ class MainBody extends Component{
     }
 
     alertError(){
-        if(this.props.err) alert(this.props.err);
+        if(this.props.err) console.log(this.props.err);
     }
 
     render(){
@@ -100,6 +97,7 @@ class MainBody extends Component{
                         required
                         id="devID"
                         label="Device ID"
+                        autoComplete="on"
                         className="devID"
                         value={this.props.uid}
                         onChange={this.onIdChanged.bind(this)}
@@ -109,6 +107,7 @@ class MainBody extends Component{
                         id="uname"
                         label="User Name"
                         className="uname"
+                        autoComplete="on"
                         value={this.props.uname}
                         onChange={this.onUnameChanged.bind(this)}
                         margin="normal" />
@@ -117,6 +116,7 @@ class MainBody extends Component{
                         type={this.state.showPassword ? 'text' : 'password'}
                         id="pswd"
                         label="Password"
+                        autoComplete="on"
                         className="pswd"
                         value={this.props.password}
                         onChange={this.onPasswordChanged.bind(this)}
@@ -126,8 +126,9 @@ class MainBody extends Component{
                                 <InputAdornment position="end">
                                     <IconButton
                                         aria-label="Toggle password visibility"
-                                        onClick={this.handleClickShowPassword}
-                                        onMouseDown={this.handleMouseDownPassword} >
+                                        //onClick={this.handleClickShowPassword}
+                                        //onMouseDown={this.handleMouseDownPassword} 
+                                        >
                                         {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>
                                 </InputAdornment>
@@ -149,7 +150,7 @@ class MainBody extends Component{
             <div>
                 <h3>DeviceID: {this.props.uid}</h3>
                 <h3>UserName: {this.props.uname}</h3>
-                <FileMap data={this.props.files} />
+                <FileMap  />
             </div> 
 
         return (this.props.isLogin)?replyText:samForm;

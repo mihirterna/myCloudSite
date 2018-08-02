@@ -13,29 +13,26 @@ class DirChar extends Component{
 
     constructor(props){
         super(props)
-        this.state={
-            fName: props.n,
-        }
+        this.props.headChanged("getList");
     }
 
-    // onClick(){
-    //     var path = this.props.dir.split("/");
-    //     this.props.headChanged("getList");
-    //     const data = {
-    //         head: this.props.head,
-    //         dir: path.slice(0, path.indexOf(this.state.fName)+1).join("/")
-    //     };
-    //     this.props.dirChanged(data);
-    // }
+    onClick(){
+        var path = this.props.dir.split("/");
+        const data = {
+            head: "getList", //head: undefined even if  this.props.headChanged("getList");
+            dir: path.slice(0, path.indexOf(this.props.n)+1).join("/")
+        };
+        this.props.dirChanged(data);
+    }
 
     componentWillReceiveProps(newProp){
-        this.setState({fName:newProp.n});
+       this.props=newProp
     }
 
     render(){
         return(
             <div>
-                <Button variant="outlined" /*onClick={this.onClick.bind(this)}*/>{this.state.fName}/</Button>
+                <Button variant="raised" onClick={this.onClick.bind(this)}>{this.props.n}/</Button>
             </div>
         );
     }

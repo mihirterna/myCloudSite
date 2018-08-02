@@ -1,32 +1,166 @@
 import React, { Component } from 'react';
-import { CardMedia, Typography, CardContent, Card } from '@material-ui/core';
+import { Typography, CardContent, Button, Card, Checkbox   } from '@material-ui/core';
+import * as actions from '../actions';
+import { connect } from 'react-redux';
 import './card.css'
+import * as FontAwesome from 'react-icons/lib/fa';
+import MenuIcon from './menuIcon'
+
+const mapStateToProps = state => {
+  return {
+      files: state.auth.files,
+      dir: state.auth.dir,
+      head: state.auth.head,
+      err: state.auth.err,
+      cb_val : state.auth.cb_val
+  };
+};
 
 class MediaControlCard extends Component {
-  render(){
-    return (
-      <div>
-        <Card className="card" >
-          <CardMedia className="icon"
-            image="../icons/outline_folder_black_18dp.png"
-            title="Live from space album cover">
-          </CardMedia>
-          
-          <div >
-            <CardContent >
-              <Typography variant="headline">{this.props.i}</Typography>
-              <Typography variant="subheading" color="textSecondary">
-                {this.props.n}
-              </Typography>
-            </CardContent>
-          </div>
-        </Card>
+  constructor(){
+    super()
+    this.state={
+      toShow:false,
+      isChecked:false
+    }
+    this.clickHandle = this.clickHandle.bind(this)
+    this.foldClick = this.foldClick.bind(this)
+  }
+foldClick(){
+  if(this.props.cb_val){
+    const deta = {
+      k:this.props.k,
+      name : this.props.n,
+      delete:false,
+      clear:true
+    }
+    this.props.show_cb(deta) 
+  }
+
+  const data = {
+    head: this.props.head, 
+    dir: this.props.dir+"/"+this.props.n,
+    };
+  this.props.dirChanged(data);
+}
+
+componentWillReceiveProps(newProp){
+       this.props=newProp
+}
+
+fileDW(){
+  
+  var data = {
+    head:"download",
+    dir:this.props.dir,
+    fName:this.props.n
+}
+const url = "http://localhost:5000/dw/d?dir="+this.props.dir+"&f="+data.fName
+window.location.href = url
+
+// axios.post('http://localhost:5000/dw/d?',{data},{responseType:'blob'}).then(res=>{
+//     var s = "status"
+//   if(res[s]===200){
+//     fileDownload(res.data,data.fName)
+// }
+// });
+}
+clickHandle(){
+  if(!this.state.isChecked){
+    const data = {
+      k:this.props.k,
+      name : this.props.n,
+      delete:false
+    }
+    this.props.show_cb(data)
+  }
+  else{
+    const data = {
+      name : this.props.n,
+      delete:true
+    }
+    this.props.show_cb(data)
+  }
+  this.setState({
+    isChecked:!this.state.isChecked
+  })
+}
+
+retCB(){
+  return(
+  <Checkbox
+  checked={this.state.isChecked}
+  onChange={this.clickHandle}
+  value="checkedB"
+  color="primary"/>
+
+  )
+}
+
+retFold(){
+
+  return(
+  <Card className="card">
+  {/* <Button variant="outlined" onClick={this.foldClick.bind(this)}  className="card"> */}
+  <div className="folder" onClick={this.clickHandle}>
+  <FontAwesome.FaFolderO className="icon" />
+   </div>   
+   <div className="seperator"></div>
+   <div className="content" onClick={this.foldClick}>
+      <CardContent >
+        <Typography variant="headline" style={{fontSize:'14px'}}>{this.props.n}</Typography>
+        <Typography variant="subheading" color="textSecondary" style={{fontSize:'14px'}}>
+          {this.props.s/1024} MB
+        </Typography>
+      </CardContent>
       </div>
+      <div className="cb">
+        {
+          this.props.cb_val?this.retCB():""
+        }
+      </div>
+      <MenuIcon/>
+     {/* </Button> */}
+  </Card>
+  )
+}
+
+retFile(){
+  return(
+  <Card className="card">
+  <div className="folder" onClick={this.clickHandle}>
+   <FontAwesome.FaFileO className="icon"/>
+     </div> 
+     <div className="seperator"></div>
+      <CardContent className="content" >
+        <Typography variant="headline" style={{fontSize:'14px'}}>{this.props.n}</Typography>
+        <Typography variant="subheading" color="textSecondary" style={{fontSize:'14px'}}>
+          {this.props.s/1000000} MB
+        </Typography>
+      </CardContent>
+      <Button className="fileDwBtn" variant="contained" color="primary" onClick={this.fileDW.bind(this)}>Download</Button>   
+      <div>
+        {
+          this.props.cb_val?this.retCB():""
+        }
+      </div>
+      <MenuIcon/>
+  </Card>
+  )
+}
+componentWillMount(){
+  console.log("CB ",this.props.cb_val)
+}
+
+  render(){
+
+     return (
+          this.props.t==="d"? this.retFold():this.retFile()
     );
   }
 }
 
-export default(MediaControlCard);
+export default connect(mapStateToProps, actions)(MediaControlCard);
 
 // import Card from '@material-ui/core/Card';
 // import CardContent from '@material-ui/core/CardContent';
@@ -50,51 +184,8 @@ export default(MediaControlCard);
 //     var data = this.state.fName
 //     disAct.dirChanged(data);
 //   }
-//   fileDW(){
-//     var data = {
-//       head:"download",
-//       dir:resStore.getDir(),
-//       fName:this.state.fName
-//   }
-//   console.log(data.dir,this.state.fName)
-//   axios.post('http://localhost:5000',{data},{responseType:'blob'}).then(res=>{
-//       var s = "status"
-//     if(res[s]===200){
-//       fileDownload(res.data,data.fName)
-//   }
-//   });
-// }
+ 
 
-//   retFold(){
-//     return(
-//     <Card className="card">
-//     <Button variant="outlined" onClick={this.foldClick} className="card">
-//     <FontAwesome.FaFolderO className="folder"/>
-//         <CardContent className="content" >
-//           <Typography variant="headline">{this.props.n}</Typography>
-//           <Typography variant="subheading" color="textSecondary">
-//             {this.props.s/1024} MB
-//           </Typography>
-//         </CardContent>
-//         </Button>
-//     </Card>
-//     )
-//   }
-
-//   retFile(){
-//     return(
-//     <Card className="card">
-//      <FontAwesome.FaFileO className="folder"/>
-//         <CardContent className="content" >
-//           <Typography variant="headline">{this.props.n}</Typography>
-//           <Typography variant="subheading" color="textSecondary">
-//             {this.props.s/1000000} MB
-//           </Typography>
-//         </CardContent>
-//         <Button variant="contained" color="primary" onClick={this.fileDW.bind(this)}>Download</Button>   
-//     </Card>
-//     )
-//   }
 
 //   componentWillReceiveProps(newProp){
 //     this.setState({
@@ -104,7 +195,23 @@ export default(MediaControlCard);
 
 //   render(){    
 //       return (<div>
-//             {this.props.t==="d"? this.retFold():this.retFile()}
+   //   <div>
+    //     <Card className="card" >
+    //       <CardMedia className="icon"
+    //         image="../icons/outline_folder_black_18dp.png"
+    //         title="Live from space album cover">
+    //       </CardMedia>
+          
+    //       <div >
+    //         <CardContent >
+    //           <Typography variant="headline">{this.props.i}</Typography>
+    //           <Typography variant="subheading" color="textSecondary">
+    //             {this.props.n}
+    //           </Typography>
+    //         </CardContent>
+    //       </div>
+    //     </Card>
+    //   </div>
 //           </div>
 //   );
 // }

@@ -3,6 +3,7 @@ import Card from './card';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 import DirRow from './dirRow'
+import FileUpload from './FileUpload'
 
 const mapStateToProps = state => {
     return {
@@ -15,28 +16,40 @@ const mapStateToProps = state => {
 
 class FileMap extends Component{
 
-    constructor(props) {
-        super(props);
-        this.props.headChanged("getList");
-        const data = {
-            head: this.props.head,
-            dir: "/home/dhanesh/Pictures"
-        };
-        this.props.dirChanged(data);
-    }
-
     alertError(){
-        if(this.props.err) alert(this.props.err);
+        if(this.props.err) console.log(this.props.err);
     }
 
+    sortOn(property){
+        return function(a, b){
+            if(a[property] < b[property]){
+                return -1;
+            }else if(a[property] > b[property]){
+                return 1;
+            }else{
+                return 0;   
+            }
+        }
+    }
+
+    
     render(){
-        var d = this.props.files;
-         return(
+        const e = this.props.files;
+        const d = []
+        for(let i=0;i<this.props.files.length;i++){
+            if(!e[i]["name"].startsWith(".")) d.push(e[i])
+        }
+        //d.sort((a, b) => a["name"] > b["name"])
+        d.sort(this.sortOn("name"))
+        return(
             <div>
                 <DirRow />
+                <FileUpload/>
+                <div>
                 {Object.keys(d).map(function(key){
-                    return <div key={key}><Card  n={d[key]["name"]} t={d[key]["type"]} s={d[key]["size"]} la={d[key]["la"]} lm={d[key]["lm"]} birth={d[key]["birth"]}/></div>
+                    return <div key={key}><Card  n={d[key]["name"]} t={d[key]["type"]} s={d[key]["size"]} la={d[key]["la"]} lm={d[key]["lm"]} birth={d[key]["birth"]} k={key}/></div>
                 })}
+                </div>
             </div>
          );
     }
