@@ -20,6 +20,7 @@ class FileUpload extends Component{
         }
         this.onDrop = this.onDrop.bind(this)
         this.upload = this.upload.bind(this)
+        this.selectAll = this.selectAll.bind(this)
     }
     onDrop(event){
         this.setState({
@@ -51,13 +52,23 @@ class FileUpload extends Component{
         //     files:this.state.files
         //   }
     }
+    selectAll(){
+        console.log("TODO: select/unselect all files")
+    }
+
+
     render(){
         return(
+            <div className="fileUp">
             <div>
                 <form onSubmit={this.upload}>
                <input type="file" name="file" onChange={this.onDrop} multiple/>
                <input type="submit" value="submit"/>
                </form>
+            </div>
+            <div>
+                <Button variant="raised" onClick={this.selectAll}>Select all</Button>
+            </div>
             </div>
         )
     }

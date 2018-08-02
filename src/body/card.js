@@ -4,6 +4,7 @@ import * as actions from '../actions';
 import { connect } from 'react-redux';
 import './card.css'
 import * as FontAwesome from 'react-icons/lib/fa';
+import MenuIcon from './menuIcon'
 
 const mapStateToProps = state => {
   return {
@@ -26,19 +27,21 @@ class MediaControlCard extends Component {
     this.foldClick = this.foldClick.bind(this)
   }
 foldClick(){
-
-  const deta = {
-    name : this.props.n,
-    delete:false,
-    clear:true
+  if(this.props.cb_val){
+    const deta = {
+      k:this.props.k,
+      name : this.props.n,
+      delete:false,
+      clear:true
+    }
+    this.props.show_cb(deta) 
   }
-  this.props.show_cb(deta)
-  
+
   const data = {
     head: this.props.head, 
     dir: this.props.dir+"/"+this.props.n,
-};
-this.props.dirChanged(data);
+    };
+  this.props.dirChanged(data);
 }
 
 componentWillReceiveProps(newProp){
@@ -65,6 +68,7 @@ window.location.href = url
 clickHandle(){
   if(!this.state.isChecked){
     const data = {
+      k:this.props.k,
       name : this.props.n,
       delete:false
     }
@@ -110,11 +114,12 @@ retFold(){
         </Typography>
       </CardContent>
       </div>
-      <div>
+      <div className="cb">
         {
           this.props.cb_val?this.retCB():""
         }
       </div>
+      <MenuIcon/>
      {/* </Button> */}
   </Card>
   )
@@ -139,6 +144,7 @@ retFile(){
           this.props.cb_val?this.retCB():""
         }
       </div>
+      <MenuIcon/>
   </Card>
   )
 }
