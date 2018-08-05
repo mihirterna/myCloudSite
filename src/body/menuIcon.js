@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Typography, CardContent, Button, Card, Checkbox   } from '@material-ui/core';
+import {IconButton, Menu, MenuItem,ListItemIcon,ListItemText} from '@material-ui/core';
+import {MoreVert, MoveToInbox, Send, FileDownload, Share} from '@material-ui/icons'
 import * as actions from '../actions';
 import { connect } from 'react-redux';
-import './card.css'
-import * as FontAwesome from 'react-icons/lib/fa';
+import { withStyles } from '@material-ui/core/styles';
 
 const mapStateToProps = state => {
     return {
@@ -14,35 +14,95 @@ const mapStateToProps = state => {
         cb_val : state.auth.cb_val
     };
   };
-  
-  class MenuIcon extends Component {
 
-    showDropdown() {
-        document.getElementById("myDropdown").classList.toggle("show");
+  const styles = theme => ({
+    menuItem: {
+      '&:focus': {
+        backgroundColor: theme.palette.primary.main,
+        '& $primary, & $icon': {
+          color: theme.palette.common.white,
+        },
+      },
+    },
+    primary: {},
+    icon: {},
+  });
+
+  const options = [
+    'None',
+    'Atria',
+    'Callisto'
+  ];
+  const ITEM_HEIGHT = 48;
+  
+  
+  class Menuicon extends Component {
+      constructor(props){
+        super(props)
+        this.handleClick = this.handleClick.bind(this)
+        this.download = this.download.bind(this)
+        this.handleClose = this.handleClose.bind(this)
+        this.state = {
+            anchorEl: null,
+            classes: props
+          }
+        
+      }
+
+    handleClick(event) {
+        this.setState({ anchorEl: event.currentTarget });
+    }
+    handleClose(){
+        this.setState({ anchorEl: null });
+      };
+    download(){
+        var data = {
+        head:"download",
+        dir:this.props.dir,
+        fName:this.props.n
+                  }
+        const url = "http://localhost:5000/dw/d?dir="+this.props.dir+"&f="+data.fName
+        window.location.href = url
     }
 
-    
-
     render(){
-     
-
+        const { anchorEl } = this.state;
         return(
-            <div>
-                <div className="dropdown">
-                    <ul className="dropbtn icons btn-right showLeft" onClick={this.showDropdown.bind(this)}>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                    <div id="myDropdown" className="dropdown-content">
-                        <a href="#home">Home</a>
-                        <a href="#about">About</a>
-                        <a href="#contact">Contact</a>
-                    </div>
-                </div>
+        <div>
+            <IconButton
+          aria-label="More"
+          aria-owns={anchorEl ? 'long-menu' : null}
+          aria-haspopup="true"
+          onClick={this.handleClick}>
+            <MoreVert />
+            </IconButton>
+            <Menu
+             id="long-menu"
+             anchorEl={anchorEl}
+             open={Boolean(anchorEl)}
+             onClose={this.handleClose}
+             PaperProps={{
+                style: {
+                maxHeight: ITEM_HEIGHT * 4.5,
+                width: 200,
+                 },}}>
+
+              <MenuItem className={this.state.classes.menuItem}>
+          <ListItemIcon className={this.state.classes.icon}>
+            <Share />
+          </ListItemIcon>
+          <ListItemText classes={{ primary: this.state.classes.primary }} inset primary="Share download link" />
+        </MenuItem>
+        <MenuItem className={this.state.classes.menuItem} onClick={this.download}>
+          <ListItemIcon className={this.state.classes.icon}>
+            <FileDownload />
+          </ListItemIcon>
+          <ListItemText classes={{ primary: this.state.classes.primary }} inset primary="Download" />
+        </MenuItem>
+                </Menu>
             </div>
         )
     }
 }
 
-export default connect(mapStateToProps, actions)(MenuIcon);
+export default connect(mapStateToProps, actions)(withStyles(styles)(Menuicon));

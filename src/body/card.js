@@ -4,7 +4,7 @@ import * as actions from '../actions';
 import { connect } from 'react-redux';
 import './card.css'
 import * as FontAwesome from 'react-icons/lib/fa';
-import MenuIcon from './menuIcon'
+import Menuicon from './menuIcon';
 
 const mapStateToProps = state => {
   return {
@@ -29,8 +29,7 @@ class MediaControlCard extends Component {
 foldClick(){
   if(this.props.cb_val){
     const deta = {
-      k:this.props.k,
-      name : this.props.n,
+      name : this.props.d["name"],
       delete:false,
       clear:true
     }
@@ -39,7 +38,7 @@ foldClick(){
 
   const data = {
     head: this.props.head, 
-    dir: this.props.dir+"/"+this.props.n,
+    dir: this.props.dir+"/"+this.props.d["name"],
     };
   this.props.dirChanged(data);
 }
@@ -53,7 +52,7 @@ fileDW(){
   var data = {
     head:"download",
     dir:this.props.dir,
-    fName:this.props.n
+    fName:this.props.d["name"]
 }
 const url = "http://localhost:5000/dw/d?dir="+this.props.dir+"&f="+data.fName
 window.location.href = url
@@ -68,15 +67,14 @@ window.location.href = url
 clickHandle(){
   if(!this.state.isChecked){
     const data = {
-      k:this.props.k,
-      name : this.props.n,
+      name : this.props.d["name"],
       delete:false
     }
     this.props.show_cb(data)
   }
   else{
     const data = {
-      name : this.props.n,
+      name : this.props.d["name"],
       delete:true
     }
     this.props.show_cb(data)
@@ -108,9 +106,9 @@ retFold(){
    <div className="seperator"></div>
    <div className="content" onClick={this.foldClick}>
       <CardContent >
-        <Typography variant="headline" style={{fontSize:'14px'}}>{this.props.n}</Typography>
+        <Typography variant="headline" style={{fontSize:'14px'}}>{this.props.d["name"]}</Typography>
         <Typography variant="subheading" color="textSecondary" style={{fontSize:'14px'}}>
-          {this.props.s/1024} MB
+          {this.props.d["size"]/1024} MB
         </Typography>
       </CardContent>
       </div>
@@ -119,8 +117,11 @@ retFold(){
           this.props.cb_val?this.retCB():""
         }
       </div>
-      <MenuIcon/>
-     {/* </Button> */}
+      
+      <div>
+      <Menuicon/>
+      </div>
+     
   </Card>
   )
 }
@@ -133,18 +134,21 @@ retFile(){
      </div> 
      <div className="seperator"></div>
       <CardContent className="content" >
-        <Typography variant="headline" style={{fontSize:'14px'}}>{this.props.n}</Typography>
+        <Typography variant="headline" style={{fontSize:'14px'}}>{this.props.d["name"]}</Typography>
         <Typography variant="subheading" color="textSecondary" style={{fontSize:'14px'}}>
-          {this.props.s/1000000} MB
+          {this.props.d["size"]/1000000} MB
         </Typography>
       </CardContent>
-      <Button className="fileDwBtn" variant="contained" color="primary" onClick={this.fileDW.bind(this)}>Download</Button>   
+      {/* <Button className="fileDwBtn" variant="contained" color="primary" onClick={this.fileDW.bind(this)}>Download</Button>    */}
       <div>
         {
           this.props.cb_val?this.retCB():""
         }
       </div>
-      <MenuIcon/>
+      <div>
+      <Menuicon n={this.props.d["name"]}/>
+      </div>
+      
   </Card>
   )
 }
@@ -155,7 +159,7 @@ componentWillMount(){
   render(){
 
      return (
-          this.props.t==="d"? this.retFold():this.retFile()
+          this.props.d["type"]==="d"? this.retFold():this.retFile()
     );
   }
 }

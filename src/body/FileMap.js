@@ -47,7 +47,7 @@ class FileMap extends Component{
                 <FileUpload/>
                 <div>
                 {Object.keys(d).map(function(key){
-                    return <div key={key}><Card  n={d[key]["name"]} t={d[key]["type"]} s={d[key]["size"]} la={d[key]["la"]} lm={d[key]["lm"]} birth={d[key]["birth"]} k={key}/></div>
+                    return <div key={key}><Card d={d[key]} k={key}/></div>
                 })}
                 </div>
             </div>
