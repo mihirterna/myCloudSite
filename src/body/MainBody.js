@@ -40,7 +40,8 @@ class MainBody extends Component{
         super();
         this.state={
             showPassword: false
-        }    
+        }
+        this.onLoginClicked = this.onLoginClicked.bind(this)
     }
 
     handleMouseDownPassword = event => {
@@ -57,7 +58,8 @@ class MainBody extends Component{
             devID: this.props.uid,
             uname: this.props.uname,
             pswd: this.props.password,
-            dir: "/home/"+this.props.uname
+            //dir: "/home/"+this.props.uname
+            dir:"D:/"
         }
         // if(data.devID === '' || data.uname === '' || data.pswd === '') return;
         this.props.loginUser(data);
@@ -94,7 +96,7 @@ class MainBody extends Component{
                 {this.alertError()}
                 <form className="samForm">
                     <TextField
-                        required
+                        
                         id="devID"
                         label="Device ID"
                         autoComplete="on"
@@ -112,7 +114,7 @@ class MainBody extends Component{
                         onChange={this.onUnameChanged.bind(this)}
                         margin="normal" />
                     <TextField
-                        required
+                        
                         type={this.state.showPassword ? 'text' : 'password'}
                         id="pswd"
                         label="Password"
@@ -135,26 +137,25 @@ class MainBody extends Component{
                         }} />
                     <MuiThemeProvider theme={theme}>
                         <Button
-                            type="submit"
                             style={{marginTop: 20}}
                             variant="contained"
                             color="primary"
-                            onClick={() => this.onLoginClicked()}>
-                                Test
+                            onClick={this.onLoginClicked}>
+                                Login
                         </Button>
                     </MuiThemeProvider >
                 </form>
             </div>
-            
-        const replyText = 
+
+        const replyText =
             <div>
                 <h3>DeviceID: {this.props.uid}</h3>
                 <h3>UserName: {this.props.uname}</h3>
                 <FileMap  />
-            </div> 
+            </div>
 
         return (this.props.isLogin)?replyText:samForm;
     }
-};
+}
 
 export default connect(mapStateToProps, actions)(withStyles(theme)(MainBody));

@@ -9,7 +9,7 @@ import './App.css';
 
 const THEME = createMuiTheme({
   typography: {
-   "fontFamily": "\"Comfortaa\", \"Helvetica\", \"Arial\", sans-serif",
+   "fontFamily": "\"Calibri\", \"Helvetica\", \"Arial\", sans-serif",
    "fontSize": 14,
    "fontWeightLight": 300,
    "fontWeightRegular": 400,
