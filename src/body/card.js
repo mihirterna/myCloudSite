@@ -15,7 +15,6 @@ const mapStateToProps = state => {
       cb_val : state.auth.cb_val
   };
 };
-
 class MediaControlCard extends Component {
   constructor(){
     super()
