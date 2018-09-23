@@ -56,7 +56,6 @@ class FileUpload extends Component{
         console.log("TODO: select/unselect all files")
     }
 
-
     render(){
         return(
             <div className="fileUp">
