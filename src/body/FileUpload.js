@@ -8,19 +8,19 @@ import axios from 'axios';
 const mapStateToProps = state => {
     return {
         dir: state.auth.dir,
-        err: state.auth.err
+        err: state.auth.err,
+        checked_files: state.auth.checked_files
     };
   };
 
-class FileUpload extends Component{
+class FileActions extends Component{
     constructor(){
         super()
         this.state={
-            files:null
+            files:[],
         }
         this.onDrop = this.onDrop.bind(this)
         this.upload = this.upload.bind(this)
-        this.selectAll = this.selectAll.bind(this)
     }
     onDrop(event){
         this.setState({
@@ -32,7 +32,7 @@ class FileUpload extends Component{
     }
     upload (event){
         event.preventDefault()
-        const config = {
+        let config = {
             onUploadProgress: progressEvent => console.log(Math.round( (progressEvent.loaded * 100) / progressEvent.total ))
         }
         Array.from(this.state.files).forEach(file => {
@@ -52,25 +52,27 @@ class FileUpload extends Component{
         //     files:this.state.files
         //   }
     }
-    selectAll(){
-        console.log("TODO: select/unselect all files")
+    componentWillReceiveProps(newProp){
+        this.props=newProp
     }
+    onSelect(){
+        console.log(this.props.checked_files)
 
+    }
+   
     render(){
+        console.log(this.props.checked_files)
         return(
             <div className="fileUp">
-            <div>
-                <form onSubmit={this.upload}>
-               <input type="file" name="file" onChange={this.onDrop} multiple/>
-               <input type="submit" value="submit"/>
-               </form>
-            </div>
-            <div>
-                <Button variant="raised" onClick={this.selectAll}>Select all</Button>
-            </div>
+                <Button
+                variant="raised"
+                onClick={this.onSelect.bind(this)}
+                >
+                {this.props.checked_files}
+                </Button>
             </div>
         )
     }
 }
 
-export default connect(mapStateToProps, actions)(FileUpload);
+export default connect(mapStateToProps, actions)(FileActions);

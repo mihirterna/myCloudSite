@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './mainBody.css'
 import * as actions from '../actions';
 import DirChar from'./dirChar'
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Menu, MenuItem } from '@material-ui/core';
 
 const mapStateToProps = state => {
     return {
@@ -18,16 +18,11 @@ class DirRow extends Component{
         super()
         this.state={
             fName:"",
+            anchorEl: null
         }
+        this.handleClick = this.handleClick.bind(this)
+        this.handleClose = this.handleClose.bind(this)
     }
-
-    // componentWillMount(){
-    //     const data = {
-    //         head: this.props.head,
-    //         dir: this.props.dir
-    //     };
-    //     this.props.dirChanged(data);
-    // }
 
     mkdir(){
         const data ={
@@ -35,6 +30,7 @@ class DirRow extends Component{
         }
         console.log(data)
     }
+    
     onIdChanged(e) {
         this.setState({
             fName:e.target.value
@@ -44,23 +40,52 @@ class DirRow extends Component{
         this.props.mkdir(true)
     }
 
+    handleClick (event) {
+        this.setState({ anchorEl: event.currentTarget });
+      };
+    
+    handleClose () {
+        this.setState({ anchorEl: null });
+      };
+
+    
+
     render(){
         const path = this.props.dir.split("/");
-        const makeDir = <Button variant="raised" className="dirNew" onClick={this.setInput.bind(this)}>New folder</Button>
-        const takeInput =  <div>
-        <TextField id="fName" label="folder name" autoComplete="on" value={this.state.fName}onChange={this.onIdChanged.bind(this)}/>
-        <Button variant="raised" onClick={this.mkdir.bind(this)}>Submit</Button></div>
+        const { anchorEl } = this.state;
+
         return(
             <div className="dirRow">
                 <h3 className="label">Directory -> </h3>
                 <div className="dirChar">
                 {path.map(function(key,i){
+                    if(i!==0){
                     return (<DirChar className="dirItem" key={i} n={key}/>);
+                    }
+                    else {
+                       return null //Do nothing
+                    }
                 })}
-
                 </div>
-                {this.props.inp?takeInput:makeDir}
-               </div>
+                <div>
+                    <Button
+                        variant="raised"
+                        aria-owns={anchorEl ? 'simple-menu' : null}
+                        aria-haspopup="true"
+                        onClick={this.handleClick}>
+                        Menu
+                    </Button>
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={this.handleClose}>
+                        <MenuItem onClick={this.handleClose}>Select all</MenuItem>
+                        <MenuItem onClick={this.handleClose}>Sort</MenuItem>
+                        <MenuItem onClick={this.handleClose}>New Folder</MenuItem>
+                    </Menu>
+                </div>
+            </div>
         )
     }
 

@@ -3,7 +3,7 @@ import Card from './card';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 import DirRow from './dirRow'
-import FileUpload from './FileUpload'
+import FileActions from './FileUpload'
 
 const mapStateToProps = state => {
     return {
@@ -44,7 +44,7 @@ class FileMap extends Component{
         return(
             <div>
                 <DirRow />
-                <FileUpload/>
+                <FileActions/>
                 <div>
                 {Object.keys(d).map(function(key){
                     return <div key={key}><Card d={d[key]} k={key}/></div>

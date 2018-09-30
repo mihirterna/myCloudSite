@@ -7,7 +7,7 @@ router.get('/:d/',function (req,res,next){
             console.log(err);
         }
         else{
-            console.log('download complete ->',req.query.f,req.params.d);}
+            console.log('Download complete ->',req.query.f,req.params.d);}
     });
 });
 

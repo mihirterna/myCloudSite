@@ -8,9 +8,9 @@ router.post('/',function (req,res,next){
     //Directory
     const dir = req.body.data.dir;
     let list = [];
-    console.log(req.body,dir);
+    //console.log(req.body,dir);
     fs.readdirSync(dir).forEach(file => {
-        console.log(dir,file);
+        //console.log(dir,file);
         try {
             let stat = fs.statSync(dir + "/" + file);
             if (stat.isFile()) {
@@ -38,7 +38,7 @@ router.post('/',function (req,res,next){
             //console.log(e);
         }
     });
-    console.log("sending list")
+    console.log("Sending directory list.")
     res.json(list);
 });
 

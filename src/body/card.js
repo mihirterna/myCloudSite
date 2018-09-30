@@ -95,7 +95,8 @@ retCB(){
 }
 
 retFold(){
-
+  //const date = new Date(this.props.d["birth"])
+  const date = this.props.d["lm"].split("T")
   return(
   <Card className="card">
   {/* <Button variant="outlined" onClick={this.foldClick.bind(this)}  className="card"> */}
@@ -107,7 +108,8 @@ retFold(){
       <CardContent >
         <Typography variant="headline" style={{fontSize:'14px'}}>{this.props.d["name"]}</Typography>
         <Typography variant="subheading" color="textSecondary" style={{fontSize:'14px'}}>
-          {this.props.d["size"]/1024} MB
+        Last modified: {date[0]} Time: {date[1].substring(0,8)} {//Timezone in GMT, need it in IST
+        }
         </Typography>
       </CardContent>
       </div>
@@ -126,6 +128,8 @@ retFold(){
 }
 
 retFile(){
+  const date = this.props.d["lm"].split("T")
+
   return(
   <Card className="card">
   <div className="folder" onClick={this.clickHandle}>
@@ -135,7 +139,7 @@ retFile(){
       <CardContent className="content" >
         <Typography variant="headline" style={{fontSize:'14px'}}>{this.props.d["name"]}</Typography>
         <Typography variant="subheading" color="textSecondary" style={{fontSize:'14px'}}>
-          {this.props.d["size"]/1000000} MB
+        Last modified: {date[0]} Time: {date[1].substring(0,8)} Size: {this.props.d["size"]/1024} MB
         </Typography>
       </CardContent>
       {/* <Button className="fileDwBtn" variant="contained" color="primary" onClick={this.fileDW.bind(this)}>Download</Button>    */}
@@ -151,10 +155,6 @@ retFile(){
   </Card>
   )
 }
-componentWillMount(){
-  console.log("CB ",this.props.cb_val)
-}
-
   render(){
 
      return (
@@ -165,58 +165,10 @@ componentWillMount(){
 
 export default connect(mapStateToProps, actions)(MediaControlCard);
 
-// import Card from '@material-ui/core/Card';
-// import CardContent from '@material-ui/core/CardContent';
-// import Typography from '@material-ui/core/Typography';
-// import * as FontAwesome from 'react-icons/lib/fa';
-// import Button from '@material-ui/core/Button';
-// import axios from 'axios';
-// import fileDownload from 'js-file-download';
 
-// class MediaControlCard extends Component {
-//     constructor(props){
-//       super(props)
-//       this.state={
-//         dir:"",
-//         fName:props.n,
-//       }
-//       this.foldClick = this.foldClick.bind(this)
-//     }
-
-//   foldClick(){
-//     var data = this.state.fName
-//     disAct.dirChanged(data);
-//   }
- 
-
-
-//   componentWillReceiveProps(newProp){
-//     this.setState({
-//       fName:newProp.n
-//     })
-//   }
-
-//   render(){    
-//       return (<div>
-   //   <div>
-    //     <Card className="card" >
-    //       <CardMedia className="icon"
-    //         image="../icons/outline_folder_black_18dp.png"
-    //         title="Live from space album cover">
-    //       </CardMedia>
-          
-    //       <div >
-    //         <CardContent >
-    //           <Typography variant="headline">{this.props.i}</Typography>
-    //           <Typography variant="subheading" color="textSecondary">
-    //             {this.props.n}
-    //           </Typography>
-    //         </CardContent>
-    //       </div>
-    //     </Card>
-    //   </div>
-//           </div>
-//   );
-// }
-// }
-// export default (MediaControlCard);
+// "name": file,
+// "type": "f",
+// "size": stat.size,
+// "la": stat.atime,
+// "lm": stat.mtime,
+// "birth": stat.birthtimerender(){    

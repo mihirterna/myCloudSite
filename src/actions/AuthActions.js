@@ -35,15 +35,23 @@ export const show_cb = (data) => {
 
     console.log('AuthAct ',checkedFiles)
     if(Array.isArray(checkedFiles) && checkedFiles.length){
+        const payload = {
+            boo: true,
+            fNames: checkedFiles
+        }
         return {
             type: SHOW_CB,
-            payload: true
+            payload
         };
       }
       else{
+        const payload = {
+            boo: false,
+            fNames: checkedFiles
+        }
         return {
             type: SHOW_CB,
-            payload: false
+            payload
         };
       }
     

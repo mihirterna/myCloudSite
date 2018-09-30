@@ -152,6 +152,7 @@ class MainBody extends Component{
                 <h3>DeviceID: {this.props.uid}</h3>
                 <h3>UserName: {this.props.uname}</h3>
                 <FileMap  />
+                
             </div>
 
         return (this.props.isLogin)?replyText:samForm;
