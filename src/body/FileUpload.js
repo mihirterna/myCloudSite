@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Typography, CardContent, Button, Card } from '@material-ui/core';
+import {  Button } from '@material-ui/core';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 import './card.css'
@@ -9,7 +9,8 @@ const mapStateToProps = state => {
     return {
         dir: state.auth.dir,
         err: state.auth.err,
-        checked_files: state.auth.checked_files
+        checked_files: state.auth.checked_files,
+        dir_list: state.auth.files
     };
   };
 
@@ -56,12 +57,10 @@ class FileActions extends Component{
         this.props=newProp
     }
     onSelect(){
-        console.log(this.props.checked_files)
-
+        console.log(this.props.dir_list)
     }
    
     render(){
-        console.log(this.props.checked_files)
         return(
             <div className="fileUp">
                 <Button

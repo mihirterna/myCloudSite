@@ -11,11 +11,6 @@ const mapStateToProps = state => {
 
 class DirChar extends Component{
 
-    constructor(props){
-        super(props)
-        //this.props.headChanged("getList");
-    }
-
     onClick(){
         let path = this.props.dir.split("/");
         console.log(path)

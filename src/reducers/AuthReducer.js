@@ -7,7 +7,7 @@ import {
     HEAD_CHANGED,
     DIR_CHANGED,
     MKDIR,
-    SHOW_CB,
+    SHOW_CB
 } from '../actions/types';
 
 const INITIAL_STATE = {

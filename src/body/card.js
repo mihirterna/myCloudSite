@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Typography, CardContent, Button, Card, Checkbox   } from '@material-ui/core';
+import { Typography, CardContent, Card, Checkbox   } from '@material-ui/core';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 import './card.css'
@@ -12,7 +12,8 @@ const mapStateToProps = state => {
       dir: state.auth.dir,
       head: state.auth.head,
       err: state.auth.err,
-      cb_val : state.auth.cb_val
+      cb_val: state.auth.cb_val,
+      ck_files: state.auth.checked_files 
   };
 };
 class MediaControlCard extends Component {
@@ -43,7 +44,11 @@ foldClick(){
 }
 
 componentWillReceiveProps(newProp){
+  console.log("New props received");
        this.props=newProp
+       this.setState({
+         isChecked: this.props.ck_files.includes(this.props.d["name"])
+        })
 }
 
 fileDW(){
@@ -64,24 +69,15 @@ window.location.href = url
 // });
 }
 clickHandle(){
-  if(!this.state.isChecked){
     const data = {
-      name : this.props.d["name"],
-      delete:false
+      name : this.props.d["name"]
     }
     this.props.show_cb(data)
-  }
-  else{
-    const data = {
-      name : this.props.d["name"],
-      delete:true
-    }
-    this.props.show_cb(data)
-  }
-  this.setState({
-    isChecked:!this.state.isChecked
-  })
+    this.setState({
+      isChecked:this.props.ck_files.includes(this.props.d["name"])
+    })
 }
+  
 
 retCB(){
   return(

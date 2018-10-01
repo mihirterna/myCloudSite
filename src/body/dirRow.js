@@ -3,13 +3,15 @@ import { connect } from 'react-redux';
 import './mainBody.css'
 import * as actions from '../actions';
 import DirChar from'./dirChar'
-import { Button, TextField, Menu, MenuItem } from '@material-ui/core';
+import {SelectAll, Sort, CreateNewFolder} from '@material-ui/icons';
+import { Button, Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
 
 const mapStateToProps = state => {
     return {
         dir: state.auth.dir,
         head: state.auth.head,
-        inp:state.auth.mkdir
+        inp:state.auth.mkdir,
+        files: state.auth.files
     };
 };
 
@@ -42,13 +44,11 @@ class DirRow extends Component{
 
     handleClick (event) {
         this.setState({ anchorEl: event.currentTarget });
-      };
+    };
     
     handleClose () {
         this.setState({ anchorEl: null });
-      };
-
-    
+    };    
 
     render(){
         const path = this.props.dir.split("/");
@@ -80,9 +80,24 @@ class DirRow extends Component{
                         anchorEl={anchorEl}
                         open={Boolean(anchorEl)}
                         onClose={this.handleClose}>
-                        <MenuItem onClick={this.handleClose}>Select all</MenuItem>
-                        <MenuItem onClick={this.handleClose}>Sort</MenuItem>
-                        <MenuItem onClick={this.handleClose}>New Folder</MenuItem>
+                        <MenuItem onClick={ () => this.props.sAll(this.props.files)}>                           
+                            <ListItemIcon>
+                                <SelectAll/>
+                            </ListItemIcon>    
+                                <ListItemText inset primary="Select all"/>                        
+                        </MenuItem>
+                        <MenuItem onClick={ () => this.props.sAll("HELLO")}>
+                            <ListItemIcon>
+                                <Sort/>
+                            </ListItemIcon>
+                            <ListItemText inset primary="Sort"/>
+                        </MenuItem>
+                        <MenuItem onClick={ () => this.props.sAll("HELLO")}>
+                            <ListItemIcon>
+                                <CreateNewFolder/>
+                            </ListItemIcon>
+                            <ListItemText inset primary="New folder"/>
+                        </MenuItem>
                     </Menu>
                 </div>
             </div>

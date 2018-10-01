@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {IconButton, Menu, MenuItem,ListItemIcon,ListItemText} from '@material-ui/core';
-import {MoreVert, MoveToInbox, Send, FileDownload, Share} from '@material-ui/icons'
+import {MoreVert, FileDownload, Share} from '@material-ui/icons'
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
@@ -28,11 +28,6 @@ const mapStateToProps = state => {
     icon: {},
   });
 
-  const options = [
-    'None',
-    'Atria',
-    'Callisto'
-  ];
   const ITEM_HEIGHT = 48;
   
   

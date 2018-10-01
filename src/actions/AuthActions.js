@@ -30,7 +30,7 @@ export const mkdir = (boolean) => {
 
 export const show_cb = (data) => {
     if(data.clear) checkedFiles.length = 0
-    else if(data.delete)checkedFiles.splice( checkedFiles.indexOf(data.name), 1 )
+    else if(checkedFiles.includes(data.name))checkedFiles.splice( checkedFiles.indexOf(data.name), 1 )
     else checkedFiles.push(data.name)
 
     console.log('AuthAct ',checkedFiles)
@@ -131,3 +131,74 @@ export const dirChanged = (data) => {
         }).catch(error => dirChangedFailed(dispatch, error));
     };
 };
+
+export const sort = (data) => {
+    return (dispatch) => {
+        //TODO: Sorting
+    }
+}
+
+export const sAll = (data) => {
+    if(data.length === checkedFiles.length){
+        checkedFiles.length = 0
+        const payload = {
+            boo: false,
+            fNames: checkedFiles
+        }
+        return {
+        type: SHOW_CB,
+        payload
+    }
+}
+else{
+    for(const k in data){
+        if(!checkedFiles.includes(data[k]["name"])){
+            checkedFiles.push(data[k]["name"])
+        }
+    }
+    const payload = {
+        boo: true,
+        fNames: checkedFiles
+    }
+    return {
+        type: SHOW_CB,
+        payload
+        }
+    }
+}
+
+export const dilite = (data) => {
+    return (dispatch) => {
+        //TODO: Delete
+    }
+}
+
+export const copy = (data) => {
+    return (dispatch) => {
+        //TODO: Copy
+    }
+}
+
+export const move = (data) => {
+    return (dispatch) => {
+        //TODO: Move
+    }
+}
+
+export const cut = (data) => {
+    return (dispatch) => {
+        //TODO: Cut
+    }
+}
+
+export const paste = (data) => {
+    return (dispatch) => {
+        //TODO: Paste
+    }
+}
+
+
+
+
+
+
