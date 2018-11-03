@@ -23,7 +23,8 @@ const INITIAL_STATE = {
     isLogin: false,
     mkdir:false,
     cb_val:false,
-    checked_files: []
+    checked_files: [],
+    sAll:false
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -45,7 +46,7 @@ export default (state = INITIAL_STATE, action) => {
         case MKDIR:
             return {...state, mkdir:action.payload}
         case SHOW_CB:
-            return {...state, cb_val:action.payload.boo, checked_files: action.payload.fNames}
+            return {...state, cb_val:action.payload.boo, checked_files: action.payload.fNames, sAll:action.payload.sall}
         default:
             return state; //eslint-disable-next-line
     };

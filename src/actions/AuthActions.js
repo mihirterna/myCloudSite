@@ -37,6 +37,7 @@ export const show_cb = (data) => {
     if(Array.isArray(checkedFiles) && checkedFiles.length){
         const payload = {
             boo: true,
+            sall: false,
             fNames: checkedFiles
         }
         return {
@@ -47,6 +48,7 @@ export const show_cb = (data) => {
       else{
         const payload = {
             boo: false,
+            sall: false,
             fNames: checkedFiles
         }
         return {
@@ -143,6 +145,7 @@ export const sAll = (data) => {
         checkedFiles.length = 0
         const payload = {
             boo: false,
+            sall: true,
             fNames: checkedFiles
         }
         return {
@@ -158,6 +161,7 @@ else{
     }
     const payload = {
         boo: true,
+        sall: true,
         fNames: checkedFiles
     }
     return {

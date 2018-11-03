@@ -46,7 +46,14 @@ class DirRow extends Component{
         this.setState({ anchorEl: event.currentTarget });
     };
     
-    handleClose () {
+    handleClose (val) {
+        switch(val){
+            case 1:
+            this.props.sAll(this.props.files)
+            break
+            default:
+            console.log("DirRow -> Invalid val");
+        }
         this.setState({ anchorEl: null });
     };    
 
@@ -80,7 +87,7 @@ class DirRow extends Component{
                         anchorEl={anchorEl}
                         open={Boolean(anchorEl)}
                         onClose={this.handleClose}>
-                        <MenuItem onClick={ () => this.props.sAll(this.props.files)}>                           
+                        <MenuItem onClick={ () => this.handleClose(1)}>                           
                             <ListItemIcon>
                                 <SelectAll/>
                             </ListItemIcon>    

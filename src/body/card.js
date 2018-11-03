@@ -13,7 +13,8 @@ const mapStateToProps = state => {
       head: state.auth.head,
       err: state.auth.err,
       cb_val: state.auth.cb_val,
-      ck_files: state.auth.checked_files 
+      ck_files: state.auth.checked_files,
+      sall: state.auth.sAll 
   };
 };
 class MediaControlCard extends Component {
@@ -44,11 +45,20 @@ foldClick(){
 }
 
 componentWillReceiveProps(newProp){
-  console.log("New props received");
+ // console.log("New props received ", this.props.sAll);
        this.props=newProp
        this.setState({
          isChecked: this.props.ck_files.includes(this.props.d["name"])
         })
+}
+
+componentDidUpdate(prevProp, newProp, snapshot){
+  //console.log("component did mount", prevProp, " new -> ", newProp);
+  //if(prevProp.ck_files.includes(this.props.d["name"])!==newProp.ck_files.includes(this.props.d["name"])){
+    // this.setState({
+    //   isChecked: newProp.ck_files.includes(this.props.d["name"])
+    //  })
+  //}
 }
 
 fileDW(){
