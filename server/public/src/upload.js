@@ -12,6 +12,7 @@ router.post('/:d/',function (req,res,next){
     sampleFile.mv(req.query.dir+"/"+sampleFile.name, function(err) {
     if (err)    return console.log(err);
     console.log('File uploaded -> ',sampleFile.name);
+    res.json(sampleFile.name);
     });
 })
 

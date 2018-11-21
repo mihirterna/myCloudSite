@@ -4,7 +4,8 @@ import './mainBody.css'
 import * as actions from '../actions';
 import DirChar from'./dirChar'
 import {SelectAll, Sort, CreateNewFolder} from '@material-ui/icons';
-import { Button, Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Button, Menu, MenuItem, ListItemIcon, ListItemText, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText } from '@material-ui/core';
+import FileUpload from './FileUpload';
 
 const mapStateToProps = state => {
     return {
@@ -20,10 +21,13 @@ class DirRow extends Component{
         super()
         this.state={
             fName:"",
-            anchorEl: null
+            anchorEl: null,
+            fileUploadFlag: false,
+            sortMenuFlag: null
         }
         this.handleClick = this.handleClick.bind(this)
         this.handleClose = this.handleClose.bind(this)
+        this.handleFileClick = this.handleFileClick.bind(this)
     }
 
     mkdir(){
@@ -38,6 +42,7 @@ class DirRow extends Component{
             fName:e.target.value
         })
     }
+
     setInput(){
         this.props.mkdir(true)
     }
@@ -51,15 +56,38 @@ class DirRow extends Component{
             case 1:
             this.props.sAll(this.props.files)
             break
+            
+            case 2:
+            this.setState({ sortMenuFlag: true})
+            break
+
             default:
             console.log("DirRow -> Invalid val");
         }
-        this.setState({ anchorEl: null });
-    };    
+        this.state.anchorEl?this.setState({ anchorEl: null }):null
+    };
+    
+    handleFileClick(event, val){
+        switch(val){
+            case 1:
+            this.setState({fileUploadFlag: true})
+            break
+
+            case 2:
+            this.state.fileUploadFlag? this.setState({fileUploadFlag: false}): null
+            break
+
+            case 3:
+            console.log("object ", event.target.files[0])
+            break
+
+            default:
+        }
+    }
 
     render(){
         const path = this.props.dir.split("/");
-        const { anchorEl } = this.state;
+        const { anchorEl, sortMenuFlag } = this.state;
 
         return(
             <div className="dirRow">
@@ -93,7 +121,64 @@ class DirRow extends Component{
                             </ListItemIcon>    
                                 <ListItemText inset primary="Select all"/>                        
                         </MenuItem>
-                        <MenuItem onClick={ () => this.props.sAll("HELLO")}>
+                        <MenuItem 
+                        aria-owns={sortMenuFlag ? 'sort-menu' : null}
+                        aria-haspopup="true"
+                        onClick={ () => this.handleClose(2)}>
+                            <ListItemIcon>
+                                <Sort/>
+                            </ListItemIcon>
+                            <ListItemText inset primary="Sort"/>
+                        </MenuItem>
+                        <MenuItem onClick={(e) => this.handleFileClick(e, 1)}>
+                            <ListItemIcon>
+                                <CreateNewFolder/>
+                            </ListItemIcon>
+                            <ListItemText inset primary="New folder"/>
+                        </MenuItem>
+                    </Menu>
+                    <Dialog
+                        open={this.state.fileUploadFlag}
+                        onClose={(e) => this.handleFileClick(e, 4)}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                        >
+                        <DialogTitle id="alert-dialog-title">Upload files to current directory -> {this.props.dir}</DialogTitle>
+                        <DialogContent>
+                        {/*<Button
+                            variant="raised"
+                            containerelement='label'
+                            label='Select files'>
+                             <input name="files" id="files" type="file" onChange={(e) => this.handleFileClick(e, 3)} multiple /> 
+                             </Button>
+                             */}
+                        <FileUpload/>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={(e) => this.handleFileClick(e, 2)} color="primary">
+                            Disagree
+                            </Button>
+                            <Button onClick={(e) => this.handleFileClick(e, 2)} color="primary" autoFocus>
+                            Agree
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                    {/* For sort menu 
+                    <Menu
+                        id="sort-menu"
+                        anchorEl={sortMenuFlag}
+                        open={Boolean(anchorEl)}
+                        onClose={this.handleClose}>
+                        <MenuItem onClick={ () => this.handleClose(1)}>                           
+                            <ListItemIcon>
+                                <SelectAll/>
+                            </ListItemIcon>    
+                                <ListItemText inset primary="Select all"/>                        
+                        </MenuItem>
+                        <MenuItem 
+                        aria-owns={sortMenuFlag ? 'sort-menu' : null}
+                        aria-haspopup="true"
+                        onClick={ () => this.handleClose(2)}>
                             <ListItemIcon>
                                 <Sort/>
                             </ListItemIcon>
@@ -105,8 +190,9 @@ class DirRow extends Component{
                             </ListItemIcon>
                             <ListItemText inset primary="New folder"/>
                         </MenuItem>
-                    </Menu>
+                    </Menu> */}
                 </div>
+            
             </div>
         )
     }
