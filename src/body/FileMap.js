@@ -44,7 +44,6 @@ class FileMap extends Component{
         return(
             <div>
                 <DirRow />
-                <FileActions/>
                 <div>
                 {Object.keys(d).map(function(key){
                     return <div key={key}><Card d={d[key]} k={key}/></div>

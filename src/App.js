@@ -9,6 +9,7 @@ import './App.css';
 
 const THEME = createMuiTheme({
   typography: {
+    useNextVariants: true,
    "fontFamily": "\"Calibri\", \"Helvetica\", \"Arial\", sans-serif",
    "fontSize": 14,
    "fontWeightLight": 300,

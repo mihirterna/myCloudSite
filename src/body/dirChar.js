@@ -28,7 +28,7 @@ class DirChar extends Component{
     render(){
         return(
             <div>
-                <Button variant="raised" onClick={this.onClick.bind(this)}>{this.props.n}/</Button>
+                <Button variant="contained" onClick={this.onClick.bind(this)}>{this.props.n}/</Button>
             </div>
         );
     }

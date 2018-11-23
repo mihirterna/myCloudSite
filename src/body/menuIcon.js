@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {IconButton, Menu, MenuItem,ListItemIcon,ListItemText} from '@material-ui/core';
-import {MoreVert, FileDownload, Share} from '@material-ui/icons'
+import {MoreVert, CloudDownload, Share} from '@material-ui/icons'
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import { FaFileDownload } from 'react-icons/fa'
 
 const mapStateToProps = state => {
     return {
@@ -90,7 +91,7 @@ const mapStateToProps = state => {
         </MenuItem>
         <MenuItem className={this.state.classes.menuItem} onClick={this.download}>
           <ListItemIcon className={this.state.classes.icon}>
-            <FileDownload />
+            <FaFileDownload />
           </ListItemIcon>
           <ListItemText classes={{ primary: this.state.classes.primary }} inset primary="Download" />
         </MenuItem>

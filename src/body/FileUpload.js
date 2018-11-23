@@ -20,7 +20,7 @@ class FileActions extends Component{
     constructor(){
         super()
         this.state={
-            files: ['index.html']
+            files: []
         }
         this.onDrop = this.onDrop.bind(this)
         this.upload = this.upload.bind(this)
@@ -47,7 +47,6 @@ class FileActions extends Component{
                     dir : this.props.dir
                 }
                 this.props.dirChanged(data)
-                console.log(res)
               })
         })
         // const data={
@@ -60,12 +59,8 @@ class FileActions extends Component{
         this.props=newProp
     }
 
-    onSelect(){
-        console.log(this.props.dir_list)
-    }
-
     handleInit() {
-        console.log('FilePond instance has initialised', this.pond);
+        //console.log('FilePond instance has initialised', this.pond);
     }
 
     
@@ -76,8 +71,8 @@ class FileActions extends Component{
                 {/* Pass FilePond properties as attributes */}
                 <FilePond ref={ref => this.pond = ref}
                           allowMultiple={true}
-                          //server= {'http://localhost:5000/up/dsa?' + 'dir=' + this.props.dir}
-                          instantUpload={false}
+                          instantUpload={true}
+                          allowRevert = {false}
                           oninit={() => this.handleInit() }
                           onupdatefiles={(fileItems) => {
                               // Set current file objects to this.state
@@ -94,8 +89,8 @@ class FileActions extends Component{
                                 const data = new FormData()
                                 data.append('file',file)
                                 axios.post('http://localhost:5000/up/encryptedKey?dir='+this.props.dir,data,config).then(res=>{
-                                load("JIJI");    
-                                console.log(res)})
+                                load("closing pond, should pass something here :D");    
+                                })
                                 }
                         }}
                           >

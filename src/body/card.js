@@ -3,7 +3,7 @@ import { Typography, CardContent, Card, Checkbox   } from '@material-ui/core';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 import './card.css'
-import * as FontAwesome from 'react-icons/lib/fa';
+import {FaRegFolder, FaRegFile} from 'react-icons/fa';
 import Menuicon from './menuIcon';
 
 const mapStateToProps = state => {
@@ -17,6 +17,7 @@ const mapStateToProps = state => {
       sall: state.auth.sAll 
   };
 };
+
 class MediaControlCard extends Component {
   constructor(){
     super()
@@ -107,7 +108,7 @@ retFold(){
   <Card className="card">
   {/* <Button variant="outlined" onClick={this.foldClick.bind(this)}  className="card"> */}
   <div className="folder" onClick={this.clickHandle}>
-  <FontAwesome.FaFolderO className="icon" />
+  <FaRegFolder className="icon" />
    </div>   
    <div className="seperator"></div>
    <div className="content" onClick={this.foldClick}>
@@ -139,7 +140,7 @@ retFile(){
   return(
   <Card className="card">
   <div className="folder" onClick={this.clickHandle}>
-   <FontAwesome.FaFileO className="icon"/>
+   <FaRegFile className="icon"/>
      </div> 
      <div className="seperator"></div>
       <CardContent className="content" >
