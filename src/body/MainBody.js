@@ -98,8 +98,7 @@ class MainBody extends Component{
                 <h2>Login</h2>
                 {this.alertError()}
                 <form className="samForm">
-                    <TextField
-                        
+                    <TextField                        
                         id="devID"
                         label="Device ID"
                         autoComplete="on"
@@ -116,8 +115,7 @@ class MainBody extends Component{
                         value={this.props.uname}
                         onChange={this.onUnameChanged.bind(this)}
                         margin="normal" />
-                    <TextField
-                        
+                    <TextField                        
                         type={this.state.showPassword ? 'text' : 'password'}
                         id="pswd"
                         label="Password"

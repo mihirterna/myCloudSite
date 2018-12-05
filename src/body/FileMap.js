@@ -3,7 +3,6 @@ import Card from './card';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 import DirRow from './dirRow'
-import FileActions from './FileUpload'
 
 const mapStateToProps = state => {
     return {

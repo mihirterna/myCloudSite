@@ -7,7 +7,8 @@ import {
     HEAD_CHANGED,
     DIR_CHANGED,
     MKDIR,
-    SHOW_CB
+    SHOW_CB,
+    SORT
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -16,7 +17,7 @@ const INITIAL_STATE = {
     uname: "",
     password: "",
     dir: "",
-    files: "",
+    files: [],
     fName: "",
     err: "",
     dirList: [],
@@ -47,6 +48,8 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, mkdir:action.payload}
         case SHOW_CB:
             return {...state, cb_val:action.payload.boo, checked_files: action.payload.fNames, sAll:action.payload.sall}
+        case SORT:
+            return{...state, files:action.payload.files}
         default:
             return state; //eslint-disable-next-line
     };

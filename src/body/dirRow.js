@@ -86,22 +86,7 @@ class DirRow extends Component{
     }
 
     handleSortChange(val){
-        switch(val){
-            case 1:
-            break
-            case 2:
-            break
-            case 3:
-            break
-            case 4:
-            break
-            case 5:
-            break
-            case 6:
-            break
-            default:
-            break
-        }
+        
         if (this.state.sortMenuFlag) this.setState({sortMenuFlag: false})
     }
 
@@ -207,8 +192,8 @@ class DirRow extends Component{
                                     aria-label="AlphaSort"
                                     name="alphasort"
                                 >
-                                <FormControlLabel value="a-z" onClick={() => this.handleSortChange(1)} control={<Radio />} label="A-Z" />
-                                <FormControlLabel value="z-a" onClick={() => this.handleSortChange(2)}control={<Radio />} label="Z-A" />
+                                <FormControlLabel value="a-z" onClick={() => this.handleSortChange(1)} control={<Radio />} label="A->Z" />
+                                <FormControlLabel value="z-a" onClick={() => this.handleSortChange(2)}control={<Radio />} label="Z->A" />
                                 </RadioGroup>
                             </FormControl>
                         </div>
@@ -223,8 +208,8 @@ class DirRow extends Component{
                                     value={this.state.sortValue}
                                     onChange={this.handleSortChange}
                                 >
-                                <FormControlLabel value="a-z" onClick={() => this.handleSortChange(3)} control={<Radio />} label="A-Z" />
-                                <FormControlLabel value="z-a" onClick={() => this.handleSortChange(4)}control={<Radio />} label="Z-A" />
+                                <FormControlLabel value="Small-Big" onClick={() => this.handleSortChange(3)} control={<Radio />} label="Small->Big" />
+                                <FormControlLabel value="Big-Small" onClick={() => this.handleSortChange(4)}control={<Radio />} label="Big->Small" />
                                 </RadioGroup>
                             </FormControl>
                         </div>
@@ -239,8 +224,8 @@ class DirRow extends Component{
                                     value={this.state.sortValue}
                                     onChange={this.handleSortChange}
                                 >
-                                <FormControlLabel value="a-z" onClick={() => this.handleSortChange(5)} control={<Radio />} label="A-Z" />
-                                <FormControlLabel value="z-a" onClick={() => this.handleSortChange(6)} control={<Radio />} label="Z-A" />
+                                <FormControlLabel value="Old-New" onClick={() => this.handleSortChange(5)} control={<Radio />} label="Old->New" />
+                                <FormControlLabel value="New-Old" onClick={() => this.handleSortChange(6)} control={<Radio />} label="New->Old" />
                                 </RadioGroup>
                             </FormControl>
                         </div>

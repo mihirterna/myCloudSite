@@ -7,11 +7,13 @@ import {
     HEAD_CHANGED,
     DIR_CHANGED,
     MKDIR,
-    SHOW_CB
+    SHOW_CB,
+    SORT
 } from './types';
 import axios from 'axios';
 
 const checkedFiles = []
+let files = []
 
 export const idChanged = (text) => {
     return {
@@ -134,9 +136,40 @@ export const dirChanged = (data) => {
     };
 };
 
-export const sort = (data) => {
+export const sort = (key, data) => {
+    switch(key){
+        case 1:
+        files = data.sort(function(a, b){
+                    if(a["name"] < b["name"]){
+                        return -1;
+                    }else if(a["name"] > b["name"]){
+                        return 1;
+                    }else{
+                        return 0;   
+                    }
+                })
+        break
+        case 2:
+        break
+        case 3:
+        break
+        case 4:
+        break
+        case 5:
+        break
+        case 6:
+        break
+        default:
+        break
+    }
     return (dispatch) => {
-        //TODO: Sorting
+        const payload ={
+            files: files
+        }
+        dispatch({
+            type: SORT,
+            payload
+        });
     }
 }
 
