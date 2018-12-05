@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import './mainBody.css';
 import FileMap from './FileMap';
+import * as STRINGS from './strings';
 
 const theme = createMuiTheme({
     typography: {
@@ -62,7 +63,7 @@ class MainBody extends Component{
             uname: this.props.uname,
             pswd: this.props.password,
             //dir: "/home/"+this.props.uname
-            dir:"D:/"
+            dir: STRINGS.ROOT
         }
         // if(data.devID === '' || data.uname === '' || data.pswd === '') return;
         this.props.loginUser(data);
