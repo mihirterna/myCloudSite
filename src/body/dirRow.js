@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import './mainBody.css'
+import './dirRow.css'
 import * as actions from '../actions';
 import DirChar from'./dirChar'
 import {SelectAll, Sort, CreateNewFolder} from '@material-ui/icons';
@@ -24,8 +24,7 @@ class DirRow extends Component{
             fName:"",
             anchorEl: null,
             fileUploadFlag: false,
-            sortMenuFlag: false,
-            sortValue: null
+            sortMenuFlag: false
         }
         this.handleClick = this.handleClick.bind(this)
         this.handleClose = this.handleClose.bind(this)
@@ -54,6 +53,8 @@ class DirRow extends Component{
             default:
             console.log("DirRow -> Invalid val");
         }
+        if (this.state.anchorEl) this.setState({anchorEl: null})
+
     }
 
     handleFileClick(event, val){
@@ -84,9 +85,24 @@ class DirRow extends Component{
         if (this.state.anchorEl) this.setState({anchorEl: null})
     }
 
-    handleSortChange(event){
-        this.setState({sortValue: event.target.value})
-        console.log("Sort Value -> ",this.state.sortValue);
+    handleSortChange(val){
+        switch(val){
+            case 1:
+            break
+            case 2:
+            break
+            case 3:
+            break
+            case 4:
+            break
+            case 5:
+            break
+            case 6:
+            break
+            default:
+            break
+        }
+        if (this.state.sortMenuFlag) this.setState({sortMenuFlag: false})
     }
 
     render(){
@@ -181,6 +197,8 @@ class DirRow extends Component{
                         aria-describedby="sort-dialog-description"
                         >
                         <DialogTitle id="sort-dialog-title">Sort files</DialogTitle>
+                        <div className="sortDiv">
+                        <div className="sort">
                         <FormControl>
                                 <FormLabel>
                                     Alphabetical
@@ -188,16 +206,48 @@ class DirRow extends Component{
                                 <RadioGroup
                                     aria-label="AlphaSort"
                                     name="alphasort"
+                                >
+                                <FormControlLabel value="a-z" onClick={() => this.handleSortChange(1)} control={<Radio />} label="A-Z" />
+                                <FormControlLabel value="z-a" onClick={() => this.handleSortChange(2)}control={<Radio />} label="Z-A" />
+                                </RadioGroup>
+                            </FormControl>
+                        </div>
+                        <div className="sort">
+                            <FormControl>
+                                <FormLabel>
+                                    Size
+                                </FormLabel>
+                                <RadioGroup
+                                    aria-label="AlphaSort"
+                                    name="alphasort"
                                     value={this.state.sortValue}
                                     onChange={this.handleSortChange}
                                 >
-                                <FormControlLabel value="a-z" control={<Radio />} label="A-Z" />
-                                <FormControlLabel value="z-a" control={<Radio />} label="Z-A" />
+                                <FormControlLabel value="a-z" onClick={() => this.handleSortChange(3)} control={<Radio />} label="A-Z" />
+                                <FormControlLabel value="z-a" onClick={() => this.handleSortChange(4)}control={<Radio />} label="Z-A" />
                                 </RadioGroup>
                             </FormControl>
+                        </div>
+                        <div className="sort">
+                            <FormControl>
+                                <FormLabel>
+                                    Date updated
+                                </FormLabel>
+                                <RadioGroup
+                                    aria-label="AlphaSort"
+                                    name="alphasort"
+                                    value={this.state.sortValue}
+                                    onChange={this.handleSortChange}
+                                >
+                                <FormControlLabel value="a-z" onClick={() => this.handleSortChange(5)} control={<Radio />} label="A-Z" />
+                                <FormControlLabel value="z-a" onClick={() => this.handleSortChange(6)} control={<Radio />} label="Z-A" />
+                                </RadioGroup>
+                            </FormControl>
+                        </div>
+                        </div>
                         <DialogActions>
                             <Button variant="contained" onClick={(e) => this.handleFileClick(e, 4)} color="primary">
-                            Disagree
+                            Ok
                             </Button>
                         </DialogActions>
                     </Dialog>

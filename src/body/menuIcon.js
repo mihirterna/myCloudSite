@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {IconButton, Menu, MenuItem,ListItemIcon,ListItemText} from '@material-ui/core';
-import {MoreVert, CloudDownload, Share} from '@material-ui/icons'
+import {MoreVert,} from '@material-ui/icons'
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import { FaFileDownload } from 'react-icons/fa'
+import { FaFileDownload, FaShareAlt } from 'react-icons/fa'
 
 const mapStateToProps = state => {
     return {
@@ -82,10 +82,9 @@ const mapStateToProps = state => {
                 maxHeight: ITEM_HEIGHT * 4.5,
                 width: 200,
                  },}}>
-
               <MenuItem className={this.state.classes.menuItem}>
           <ListItemIcon className={this.state.classes.icon}>
-            <Share />
+            <FaShareAlt />
           </ListItemIcon>
           <ListItemText classes={{ primary: this.state.classes.primary }} inset primary="Share download link" />
         </MenuItem>

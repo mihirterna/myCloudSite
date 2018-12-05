@@ -113,8 +113,8 @@ retFold(){
    <div className="seperator"></div>
    <div className="content" onClick={this.foldClick}>
       <CardContent >
-        <Typography variant="headline" style={{fontSize:'14px'}}>{this.props.d["name"]}</Typography>
-        <Typography variant="subheading" color="textSecondary" style={{fontSize:'14px'}}>
+        <Typography variant="h5" style={{fontSize:'14px'}}>{this.props.d["name"]}</Typography>
+        <Typography variant="subtitle1" color="textSecondary" style={{fontSize:'14px'}}>
         Last modified: {date[0]} Time: {date[1].substring(0,8)} {//Timezone in GMT, need it in IST
         }
         </Typography>
@@ -144,8 +144,8 @@ retFile(){
      </div> 
      <div className="seperator"></div>
       <CardContent className="content" >
-        <Typography variant="headline" style={{fontSize:'14px'}}>{this.props.d["name"]}</Typography>
-        <Typography variant="subheading" color="textSecondary" style={{fontSize:'14px'}}>
+        <Typography variant="h5" style={{fontSize:'14px'}}>{this.props.d["name"]}</Typography>
+        <Typography variant="subtitle1" color="textSecondary" style={{fontSize:'14px'}}>
         Last modified: {date[0]} Time: {date[1].substring(0,8)} Size: {this.props.d["size"]/1024} MB
         </Typography>
       </CardContent>
@@ -161,7 +161,8 @@ retFile(){
       
   </Card>
   )
-}
+} 
+
   render(){
 
      return (

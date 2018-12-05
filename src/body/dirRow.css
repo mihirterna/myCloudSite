@@ -1,0 +1,24 @@
+.sort{
+    margin: 10px;
+    padding: 10px
+}
+
+.dirRow{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    align-content: space-around;
+}
+.dirChar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.sortDiv{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    
+}

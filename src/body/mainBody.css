@@ -37,16 +37,3 @@
     margin: 0 auto;
     width: 80%;
 }
-.dirRow{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: baseline;
-    align-content: space-around;
-}
-.dirChar{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-
-}

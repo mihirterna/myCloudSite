@@ -8,6 +8,9 @@ import './mainBody.css';
 import FileMap from './FileMap';
 
 const theme = createMuiTheme({
+    typography: {
+        useNextVariants: true,
+      },
     overrides: {
       MuiButton: {
         root: {
