@@ -1,45 +1,39 @@
-const express    = require('express');
-const router = express.Router();
+const express = require('express');
 const fs = require('fs');
+const router = express.Router();
 
+//to ban GET requests
+router.get('/', function(req, res){
+    res.status(405).send("GET requests are banned! So will be you.");
+});
 
-router.post('/',function (req,res,next){
-
-    //Directory
+//on POST request
+router.post('/', function (req, res) {
+    
+    //get directory name from post request made by AuthAction.js
     const dir = req.body.data.dir;
-    let list = [];
-    //console.log(req.body,dir);
-    fs.readdirSync(dir).forEach(file => {
-        //console.log(dir,file);
-        try {
+    let fileList = [];
+
+    //read all files from given dir synchronously
+    console.log("Sending directory file listing.");
+    try {
+        fs.readdirSync(dir).forEach(file => {
+            //read a file's stats
             let stat = fs.statSync(dir + "/" + file);
-            if (stat.isFile()) {
-                list.push({
-                    "name": file,
-                    "type": "f",
-                    "size": stat.size,
-                    "la": stat.atime,
-                    "lm": stat.mtime,
-                    "birth": stat.birthtime
-                });
-            }
-            else if (stat.isDirectory()) {
-                list.push({
-                    "name": file,
-                    "type": "d",
-                    "size": stat.size,
-                    "la": stat.atime,
-                    "lm": stat.mtime,
-                    "birth": stat.birthtime
-                });
-            }
-        }
-        catch (e){
-            //console.log(e);
-        }
-    });
-    console.log("Sending directory list.")
-    res.json(list);
+            fileList.push({
+                "name": file,
+                "size": stat.size,
+                "la": stat.atime,
+                "lm": stat.mtime,
+                "birth": stat.birthtime,
+                "type": stat.isFile() ? "f" : "d"
+            });
+        });
+        res.status(200).send(JSON.stringify(fileList));
+    } catch(e) {
+        console.error("Oopsie! Something went wrong!");
+        res.status(500);
+    }
 });
 
 module.exports = router;

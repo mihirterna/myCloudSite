@@ -1,34 +1,34 @@
 import React, { Component } from 'react';
-import {Button} from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
     return {
-        dir: state.auth.dir
+        dir: state.file.dir
     };
 };
 
-class DirChar extends Component{
+class DirChar extends Component {
 
-    onClick(){
+    onClick() {
         let path = this.props.dir.split("/");
         console.log(path)
         const data = {
             head: "getList", //head: undefined even if  this.props.headChanged("getList");
-            dir: path.slice(0, path.indexOf(this.props.n)+1).join("/")
+            dir: path.slice(0, path.indexOf(this.props.n) + 1).join("/")
         };
         this.props.dirChanged(data);
     }
 
-    componentWillReceiveProps(newProp){
-       this.props=newProp
+    componentWillReceiveProps(newProp) {
+        this.props = newProp
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div>
-                <Button variant="contained" onClick={this.onClick.bind(this)}>{this.props.n}/</Button>
+                <Button variant="outlined" onClick={this.onClick.bind(this)}>{this.props.n}/</Button>
             </div>
         );
     }

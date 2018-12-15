@@ -1,55 +1,44 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import _ from 'lodash';
 import Card from './card';
 import * as actions from '../actions';
-import { connect } from 'react-redux';
 import DirRow from './dirRow'
 
 const mapStateToProps = state => {
     return {
-        files: state.auth.files,
-        dir: state.auth.dir,
-        head: state.auth.head,
+        files: state.file.files,
+        dir: state.file.dir,
+        head: state.file.head,
         err: state.auth.err
     };
 };
 
-class FileMap extends Component{
+class FileMap extends Component {
 
-    alertError(){
-        if(this.props.err) console.log(this.props.err);
+    alertError() {
+        if (this.props.err) console.log(this.props.err);
     }
 
-    sortOn(property){
-        return function(a, b){
-            if(a[property] < b[property]){
-                return -1;
-            }else if(a[property] > b[property]){
-                return 1;
-            }else{
-                return 0;   
-            }
-        }
-    }
-
-    
-    render(){
-        const e = this.props.files;
-        const d = []
-        for(let i=0;i<this.props.files.length;i++){
-            if(!e[i]["name"].startsWith(".")) d.push(e[i])
-        }
-        //d.sort((a, b) => a["name"] > b["name"])
-        d.sort(this.sortOn("name"))
-        return(
+    render() {
+        return (
             <div>
                 <DirRow />
                 <div>
-                {Object.keys(d).map(function(key){
-                    return <div key={key}><Card d={d[key]} k={key}/></div>
-                })}
+                    {_.map(
+                        _.sortBy(
+                            _.remove(this.props.files, o => {
+                                return !o.name.startsWith(".");
+                            }), [function (o) { return o.name; }]), (value, key) => {
+                                return <div key={key}>
+                                    <Card
+                                        d={value}
+                                        k={key} />
+                                </div>;
+                            })}
                 </div>
             </div>
-         );
+        );
     }
 }
 

@@ -5,16 +5,16 @@ import { createStore, applyMiddleware } from 'redux';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import MainBody from './body/MainBody';
 import reducers from './reducers';
-import './App.css';
+import './CSS/App.css';
 
 const THEME = createMuiTheme({
   typography: {
     useNextVariants: true,
-   "fontFamily": "\"Calibri\", \"Helvetica\", \"Arial\", sans-serif",
-   "fontSize": 14,
-   "fontWeightLight": 300,
-   "fontWeightRegular": 400,
-   "fontWeightMedium": 500
+    "fontFamily": "\"Calibri\", \"Helvetica\", \"Arial\", sans-serif",
+    "fontSize": 14,
+    "fontWeightLight": 300,
+    "fontWeightRegular": 400,
+    "fontWeightMedium": 500
   }
 });
 
@@ -25,7 +25,7 @@ class App extends Component {
       <MuiThemeProvider theme={THEME}>
         <Provider store={store}>
           <div>
-            <MainBody/>
+            <MainBody />
           </div>
         </Provider>
       </MuiThemeProvider >
