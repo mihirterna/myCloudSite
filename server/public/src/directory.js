@@ -7,7 +7,22 @@ router.get('/', function(req, res){
     res.status(405).send("GET requests are banned! So will be you.");
 });
 
-//on POST request
+//For creating new folders
+router.post('/new', (req, res) => {
+    //get folder name from parameter
+    const name = req.body.data.folderName;
+    if(!fs.existsSync(name)) {
+        fs.mkdirSync(name);
+        console.log(`Folder ${name} created`);
+        res.status(200);
+    }
+    else {
+        console.error("Folder creation failure!");
+        res.status(500);
+    }
+});
+
+//For directory listing
 router.post('/', function (req, res) {
     
     //get directory name from post request made by AuthAction.js
