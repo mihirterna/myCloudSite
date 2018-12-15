@@ -5,6 +5,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import MainBody from './body/MainBody';
 import reducers from './reducers';
+import Notifications from 'react-notify-toast';
 import './CSS/App.css';
 
 const THEME = createMuiTheme({
@@ -25,6 +26,7 @@ class App extends Component {
       <MuiThemeProvider theme={THEME}>
         <Provider store={store}>
           <div>
+            <Notifications />
             <MainBody />
           </div>
         </Provider>

@@ -64,19 +64,28 @@ const dirChangedFailed = (dispatch, err) => {
     });
 };
 
-export const createFolder = (name) => {
-    return (dispatch) => {
+export const createFolder = (name, cb) => {
+    return (dispatch) => 
         axios.post('http://localhost:5000/dir/new', { name }).then(res => {
-            if(res.status === 200) {
-                
+            console.log('helloooooooooooooo');
+            console.log(res.data);
+            if (res.status === 200) {
+                cb(true);
+                const payload = {
+                    files: [],
+                    dir: name
+                };
+                dispatch({
+                    type: DIR_CHANGED,
+                    payload
+                });
             }
-            else if(res.status === 500) {
-
+            else if (res.status === 500) {
+                cb(false);
             }
         }).catch(err => {
-
+            cb(false);
         });
-    };
 };
 
 export const dirChanged = (data) => {

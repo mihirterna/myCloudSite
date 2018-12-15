@@ -14,11 +14,11 @@ router.post('/new', (req, res) => {
     if(!fs.existsSync(name)) {
         fs.mkdirSync(name);
         console.log(`Folder ${name} created`);
-        res.status(200);
+        res.status(200).json('success');
     }
     else {
         console.error("Folder creation failure!");
-        res.status(500);
+        res.status(500).json('failure');
     }
 });
 

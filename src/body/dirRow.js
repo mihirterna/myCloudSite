@@ -20,9 +20,9 @@ import {
     FormControlLabel,
     FormLabel
 } from '@material-ui/core';
+import { notify } from 'react-notify-toast';
 import FileUpload from './FileUpload';
 import '../CSS/dirRow.css';
-import * as strings from './strings';
 
 const mapStateToProps = state => {
     return {
@@ -96,7 +96,11 @@ class DirRow extends Component {
                 break
 
             case 6:
-                this.props.createFolder(`${strings.ROOT}/folder`);
+                let folderName = 'folder'; //popup for name will change this
+                this.props.createFolder(`${this.props.dir}${folderName}`, (done) => {
+                    if(done) notify.show('Folder created successfully!', 'success');
+                    else notify.show('Folder creation failure!', 'error');
+                });
                 break;
             default:
         }

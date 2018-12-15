@@ -8,13 +8,13 @@ import '../CSS/card.css'
 
 const mapStateToProps = state => {
   return {
-    files: state.auth.files,
-    dir: state.auth.dir,
-    head: state.auth.head,
-    err: state.auth.err,
-    cb_val: state.auth.cb_val,
-    ck_files: state.auth.checked_files,
-    sall: state.auth.sAll
+    files: state.file.files,
+    dir: state.file.dir,
+    head: state.file.head,
+    err: state.file.err,
+    cb_val: state.file.cb_val,
+    ck_files: state.file.checked_files,
+    sall: state.file.sAll
   };
 };
 
