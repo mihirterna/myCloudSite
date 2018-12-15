@@ -64,6 +64,21 @@ const dirChangedFailed = (dispatch, err) => {
     });
 };
 
+export const createFolder = (name) => {
+    return (dispatch) => {
+        axios.post('http://localhost:5000/dir/new', { name }).then(res => {
+            if(res.status === 200) {
+                
+            }
+            else if(res.status === 500) {
+
+            }
+        }).catch(err => {
+
+        });
+    };
+};
+
 export const dirChanged = (data) => {
     return (dispatch) => {
         axios.post('http://localhost:5000/dir', { data }).then(res => {

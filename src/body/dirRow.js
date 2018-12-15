@@ -22,6 +22,7 @@ import {
 } from '@material-ui/core';
 import FileUpload from './FileUpload';
 import '../CSS/dirRow.css';
+import * as strings from './strings';
 
 const mapStateToProps = state => {
     return {
@@ -94,7 +95,9 @@ class DirRow extends Component {
                 this.setState({ sortMenuFlag: true })
                 break
 
-
+            case 6:
+                this.props.createFolder(`${strings.ROOT}/folder`);
+                break;
             default:
         }
         if (this.state.anchorEl) this.setState({ anchorEl: null })

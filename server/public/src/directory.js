@@ -10,7 +10,7 @@ router.get('/', function(req, res){
 //For creating new folders
 router.post('/new', (req, res) => {
     //get folder name from parameter
-    const name = req.body.data.folderName;
+    const name = req.body.name;
     if(!fs.existsSync(name)) {
         fs.mkdirSync(name);
         console.log(`Folder ${name} created`);
