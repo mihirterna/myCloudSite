@@ -21,6 +21,7 @@ class FileMap extends Component {
     }
 
     render() {
+        console.log(this.props.files);
         return (
             <div>
                 <DirRow />

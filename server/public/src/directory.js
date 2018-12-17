@@ -31,10 +31,11 @@ router.post('/', (req, res) => {
 
     //read all files from given dir synchronously
     console.log("Sending directory file listing.");
-    try {
+   
         fs.readdirSync(dir).forEach(file => {
             //read a file's stats
-            let stat = fs.statSync(dir + "/" + file);
+            try {
+			let stat = fs.statSync(dir + "/" + file);
             fileList.push({
                 "name": file,
                 "size": stat.size,
@@ -43,12 +44,13 @@ router.post('/', (req, res) => {
                 "birth": stat.birthtime,
                 "type": stat.isFile() ? "f" : "d"
             });
+			}
+			catch(e){
+				//console.log(e);
+			}
         });
-        res.status(200).send(JSON.stringify(fileList));
-    } catch(e) {
-        console.error("Oopsie! Something went wrong!");
-        res.status(500);
-    }
+        res.json(fileList);
+    
 });
 
 module.exports = router;

@@ -135,6 +135,7 @@ export const sort = (key, data) => {
 }
 
 export const sAll = (data) => {
+    console.log(data);
     if (data.length === checkedFiles.length) {
         checkedFiles.length = 0
         const payload = {

@@ -55,6 +55,7 @@ class DirRow extends Component {
     handleClose(val) {
         switch (val) {
             case 1:
+                console.log(this.props.files, this.props.dir);
                 this.props.sAll(this.props.files)
                 break
 
@@ -114,7 +115,6 @@ class DirRow extends Component {
     render() {
         const path = this.props.dir.split("/");
         const { anchorEl } = this.state;
-
         return (
             <div className="dirRow">
                 <h3 className="label">Directory -> </h3>
@@ -258,7 +258,6 @@ class DirRow extends Component {
                         </DialogActions>
                     </Dialog>
                 </div>
-
             </div>
         )
     }

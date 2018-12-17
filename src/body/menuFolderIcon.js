@@ -8,6 +8,7 @@ import { FaFileDownload, FaShareAlt } from 'react-icons/fa'
 
 const mapStateToProps = state => {
     return {
+        files: state.file.files,
         dir: state.file.dir,
     };
   };
@@ -27,7 +28,8 @@ const mapStateToProps = state => {
 
   const ITEM_HEIGHT = 48;
   
-  class Menuicon extends Component {
+  
+  class MenuFolderIcon extends Component {
       constructor(props){
         super(props)
         this.handleClick = this.handleClick.bind(this)
@@ -47,8 +49,7 @@ const mapStateToProps = state => {
         this.setState({ anchorEl: null });
       };
     download(){
-        const url = "http://localhost:5000/dw/d?dir="+this.props.dir+"&f="+this.props.n
-        window.location.href = url
+        console.log(this.props.files);
     }
 
     render(){
@@ -56,22 +57,22 @@ const mapStateToProps = state => {
         return(
         <div>
             <IconButton
-              aria-label="More"
-              aria-owns={anchorEl ? 'long-menu' : null}
-              aria-haspopup="true"
-              onClick={this.handleClick}>
+          aria-label="More"
+          aria-owns={anchorEl ? 'long-menu' : null}
+          aria-haspopup="true"
+          onClick={this.handleClick}>
             <MoreVert />
             </IconButton>
             <Menu
-              id="long-menu"
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={this.handleClose}
-              PaperProps={{
-                  style: {
-                  maxHeight: ITEM_HEIGHT * 4.5,
-                  width: 200,
-                  },}}>
+             id="long-menu"
+             anchorEl={anchorEl}
+             open={Boolean(anchorEl)}
+             onClose={this.handleClose}
+             PaperProps={{
+                style: {
+                maxHeight: ITEM_HEIGHT * 4.5,
+                width: 200,
+                 },}}>
               <MenuItem className={this.state.classes.menuItem}>
           <ListItemIcon className={this.state.classes.icon}>
             <FaShareAlt />
@@ -82,7 +83,7 @@ const mapStateToProps = state => {
           <ListItemIcon className={this.state.classes.icon}>
             <FaFileDownload />
           </ListItemIcon>
-          <ListItemText classes={{ primary: this.state.classes.primary }} inset primary="Download" />
+          <ListItemText classes={{ primary: this.state.classes.primary }} inset primary="Zip and download" />
         </MenuItem>
                 </Menu>
             </div>
@@ -90,4 +91,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, actions)(withStyles(styles)(Menuicon));
+export default connect(mapStateToProps, actions)(withStyles(styles)(MenuFolderIcon));

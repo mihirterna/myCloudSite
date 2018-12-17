@@ -15,17 +15,19 @@ const INITIAL_STATE = {
     head: "",
     dirList: [],
     dir: "",
-    files: [],
+    files: "",
     fName: "",
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case LOGIN_SUCCESS:
+            console.log("Login success ", action.payload );
             return { ...state, files: action.payload.d, dir: action.payload.dir };
         case HEAD_CHANGED:
             return { ...state, head: action.payload };
         case DIR_CHANGED:
+            console.log("DIR CHANGED ", action.payload );
             return { ...state, files: action.payload.files, dir: action.payload.dir };
         case MKDIR:
             return { ...state, mkdir: action.payload };

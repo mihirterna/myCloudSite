@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Menuicon from './menuIcon';
 import '../CSS/card.css'
+import MenuFoldIcon from './menuFolderIcon'
 
 const mapStateToProps = state => {
   return {
@@ -128,7 +129,7 @@ class MediaControlCard extends Component {
         </div>
 
         <div>
-          <Menuicon />
+          <MenuFoldIcon />
         </div>
 
       </Card>
