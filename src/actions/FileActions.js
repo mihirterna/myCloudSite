@@ -107,16 +107,30 @@ export const sort = (key, data) => {
     switch (key) {
         case 1: //alphabetical sort
             files = _.sortBy(data, [function (o) { return o.name; }]);
+            console.log(files);
             break
         case 2:
+            files = _.sortBy(data,[ function (o) { return o.name; }]);
+            files = files.reverse()
+            console.log(files);
             break
         case 3:
+            files = _.sortBy(data,[ function (o) { return o.size; }]);
+            console.log(files);
             break
         case 4:
+            files = _.sortBy(data,[ function (o) { return o.size; }]);
+            files = files.reverse()
+            console.log(files);
             break
         case 5:
+            files = _.sortBy(data,[ function (o) { return o.lm; }]);
+            console.log(files);
             break
         case 6:
+            files = _.sortBy(data,[ function (o) { return o.lm; }]);
+            files = files.reverse()
+            console.log(files);
             break
         default:
             break

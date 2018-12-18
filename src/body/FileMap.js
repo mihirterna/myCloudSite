@@ -7,26 +7,25 @@ import DirRow from './dirRow'
 
 const mapStateToProps = state => {
     return {
-        files: state.file.files,
-        dir: state.file.dir,
-        head: state.file.head,
-        err: state.auth.err
+        files: state.file.files
     };
 };
 
 class FileMap extends Component {
 
-    alertError() {
-        if (this.props.err) console.log(this.props.err);
-    }
-
     render() {
-        console.log(this.props.files);
         return (
             <div>
                 <DirRow />
                 <div>
-                    {_.map(
+                {_.map(this.props.files, (value, key) => {
+                                return <div key={key}>
+                                    <Card
+                                        d={value}
+                                        k={key} />
+                                </div>;
+                            })}
+                    {/* _.map(
                         _.sortBy(
                             _.filter(this.props.files, o => {
                                 return !o.name.startsWith(".");
@@ -36,7 +35,7 @@ class FileMap extends Component {
                                         d={value}
                                         k={key} />
                                 </div>;
-                            })}
+                            })*/ }
                 </div>
             </div>
         );

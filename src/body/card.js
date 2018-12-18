@@ -65,22 +65,6 @@ class MediaControlCard extends Component {
     //}
   }
 
-  fileDW() {
-    var data = {
-      head: "download",
-      dir: this.props.dir,
-      fName: this.props.d["name"]
-    }
-    const url = "http://localhost:5000/dw/d?dir=" + this.props.dir + "&f=" + data.fName
-    window.location.href = url
-
-    // axios.post('http://localhost:5000/dw/d?',{data},{responseType:'blob'}).then(res=>{
-    //     var s = "status"
-    //   if(res[s]===200){
-    //     fileDownload(res.data,data.fName)
-    // }
-    // });
-  }
   clickHandle() {
     const data = {
       name: this.props.d["name"]
@@ -148,7 +132,7 @@ class MediaControlCard extends Component {
         <CardContent className="content" >
           <Typography variant="h5" style={{ fontSize: '14px' }}>{this.props.d["name"]}</Typography>
           <Typography variant="subtitle1" color="textSecondary" style={{ fontSize: '14px' }}>
-            Last modified: {date[0]} Time: {date[1].substring(0, 8)} Size: {this.props.d["size"] / 1024} MB
+            Last modified: {date[0]} Time: {date[1].substring(0, 8)} Size: {this.props.d["size"] / 1000000.0} MB
         </Typography>
         </CardContent>
         {/* <Button className="fileDwBtn" variant="contained" color="primary" onClick={this.fileDW.bind(this)}>Download</Button>    */}

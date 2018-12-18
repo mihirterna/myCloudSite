@@ -13,7 +13,6 @@ class DirChar extends Component {
 
     onClick() {
         let path = this.props.dir.split("/");
-        console.log(path);
         const data = {
             head: "getList", //head: undefined even if  this.props.headChanged("getList");
             dir: path.slice(0, path.indexOf(this.props.n) + 1).join("/")

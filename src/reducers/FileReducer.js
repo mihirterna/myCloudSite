@@ -22,18 +22,17 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case LOGIN_SUCCESS:
-            console.log("Login success ", action.payload );
             return { ...state, files: action.payload.d, dir: action.payload.dir };
         case HEAD_CHANGED:
             return { ...state, head: action.payload };
         case DIR_CHANGED:
-            console.log("DIR CHANGED ", action.payload );
             return { ...state, files: action.payload.files, dir: action.payload.dir };
         case MKDIR:
             return { ...state, mkdir: action.payload };
         case SHOW_CB:
             return { ...state, cb_val:action.payload.boo, checked_files: action.payload.fNames, sAll:action.payload.sall };
         case SORT:
+            console.log("SORT reducer")
             return{ ...state, files:action.payload.files };
         default:
             return state; //eslint-disable-next-line

@@ -55,7 +55,6 @@ class DirRow extends Component {
     handleClose(val) {
         switch (val) {
             case 1:
-                console.log(this.props.files, this.props.dir);
                 this.props.sAll(this.props.files)
                 break
 
@@ -81,7 +80,12 @@ class DirRow extends Component {
                 break
 
             case 2:
-                if (this.state.fileUploadFlag) this.setState({ fileUploadFlag: false })
+                console.log("handleFIleCLick ")
+                if (this.state.fileUploadFlag) {
+                    console.log("making dir req");
+                    this.props.dirChanged(this.props.dir)
+                    this.setState({ fileUploadFlag: false })
+                }
                 break
 
             case 3:
@@ -113,6 +117,27 @@ class DirRow extends Component {
     }
 
     handleSortChange(val) {
+        switch(val){
+            case 1:
+            this.props.sort(1, this.props.files)
+            break
+            case 2:
+            this.props.sort(2, this.props.files)
+            break
+            case 3:
+            this.props.sort(3, this.props.files)
+            break
+            case 4:
+            this.props.sort(4, this.props.files)
+            break
+            case 5:
+            this.props.sort(5, this.props.files)
+            break
+            case 6:
+            this.props.sort(6, this.props.files)
+            break
+            default:
+        }
         if (this.state.sortMenuFlag) this.setState({ sortMenuFlag: false })
     }
 
@@ -175,7 +200,7 @@ class DirRow extends Component {
                     {/*Dialog for File Upload */}
                     <Dialog
                         open={this.state.fileUploadFlag}
-                        onClose={(e) => this.handleFileClick(e, 4)}
+                        onClose={(e) => this.handleFileClick(e, 2)}
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
                     >
@@ -191,11 +216,8 @@ class DirRow extends Component {
                             <FileUpload />
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={(e) => this.handleFileClick(e, 2)} color="primary">
-                                Disagree
-                            </Button>
                             <Button onClick={(e) => this.handleFileClick(e, 2)} color="primary" autoFocus>
-                                Agree
+                                Okay
                             </Button>
                         </DialogActions>
                     </Dialog>

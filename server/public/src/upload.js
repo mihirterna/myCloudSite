@@ -10,7 +10,7 @@ router.post('/:d/', function (req, res, next) {
     let sampleFile = req.files.file;
     // Use the mv() method to place the file somewhere on your server
     sampleFile.mv(req.query.dir + "/" + sampleFile.name, function (err) {
-        if (err) return console.log(err);
+        if (err) return console.log("Upload error ", err);
         console.log('File uploaded -> ', sampleFile.name);
         res.json(sampleFile.name);
     });

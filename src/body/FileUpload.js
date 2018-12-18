@@ -8,10 +8,7 @@ import '../CSS/card.css';
 
 const mapStateToProps = state => {
     return {
-        dir: state.auth.dir,
-        err: state.auth.err,
-        checked_files: state.auth.checked_files,
-        dir_list: state.auth.files
+        dir: state.file.dir
     };
 };
 
@@ -21,39 +18,30 @@ class FileActions extends Component {
         this.state = {
             files: []
         }
-        this.onDrop = this.onDrop.bind(this)
-        this.upload = this.upload.bind(this)
+    }
 
-    }
-    onDrop(event) {
-        this.setState({
-            files: event.target.files
-        })
-        Array.from(event.target.files).forEach(file => {
-            console.log(file.name)
-        })
-    }
-    upload(event) {
-        event.preventDefault()
-        let config = {
-            onUploadProgress: progressEvent => console.log(Math.round((progressEvent.loaded * 100) / progressEvent.total))
-        }
-        Array.from(this.state.files).forEach(file => {
-            const data = new FormData()
-            data.append('file', file)
-            axios.post('http://localhost:5000/up/encryptedKey?dir=' + this.props.dir, data, config).then(res => {
-                const data = {
-                    dir: this.props.dir
-                }
-                this.props.dirChanged(data)
-            })
-        })
-        // const data={
-        //     head:"upload",
-        //     dir:this.props.dir,
-        //     files:this.state.files
-        //   }
-    }
+    // upload(event) {
+    //     event.preventDefault()
+    //     let config = {
+    //         onUploadProgress: progressEvent => console.log(Math.round((progressEvent.loaded * 100) / progressEvent.total))
+    //     }
+    //     Array.from(this.state.files).forEach(file => {
+    //         const data = new FormData()
+    //         data.append('file', file)
+    //         axios.post('http://localhost:5000/up/encryptedKey?dir=' + this.props.dir, data, config).then(res => {
+    //             const data = {
+    //                 dir: this.props.dir
+    //             }
+    //             this.props.dirChanged(data)
+    //         })
+    //     })
+    //     // const data={
+    //     //     head:"upload",
+    //     //     dir:this.props.dir,
+    //     //     files:this.state.files
+    //     //   }
+    // }
+
     componentWillReceiveProps(newProp) {
         this.props = newProp
     }
@@ -61,8 +49,6 @@ class FileActions extends Component {
     handleInit() {
         //console.log('FilePond instance has initialised', this.pond);
     }
-
-
 
     render() {
         return (
