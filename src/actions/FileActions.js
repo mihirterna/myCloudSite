@@ -67,8 +67,6 @@ const dirChangedFailed = (dispatch, err) => {
 export const createFolder = (name, cb) => {
     return (dispatch) => 
         axios.post('http://localhost:5000/dir/new', { name }).then(res => {
-            console.log('helloooooooooooooo');
-            console.log(res.data);
             if (res.status === 200) {
                 cb(true);
                 const payload = {
@@ -135,7 +133,6 @@ export const sort = (key, data) => {
 }
 
 export const sAll = (data) => {
-    console.log(data);
     if (data.length === checkedFiles.length) {
         checkedFiles.length = 0
         const payload = {

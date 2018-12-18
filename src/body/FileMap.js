@@ -28,7 +28,7 @@ class FileMap extends Component {
                 <div>
                     {_.map(
                         _.sortBy(
-                            _.remove(this.props.files, o => {
+                            _.filter(this.props.files, o => {
                                 return !o.name.startsWith(".");
                             }), [function (o) { return o.name; }]), (value, key) => {
                                 return <div key={key}>

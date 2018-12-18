@@ -24,7 +24,6 @@ router.post('/new', (req, res) => {
 
 //For directory listing
 router.post('/', (req, res) => {
-    
     //get directory name from post request made by AuthAction.js
     const dir = req.body.data.dir;
     let fileList = [];
@@ -50,7 +49,6 @@ router.post('/', (req, res) => {
 			}
         });
         res.json(fileList);
-    
 });
 
 module.exports = router;

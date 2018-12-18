@@ -97,8 +97,12 @@ class DirRow extends Component {
                 break
 
             case 6:
-                let folderName = 'folder'; //popup for name will change this
-                this.props.createFolder(`${this.props.dir}${folderName}/`, (done) => {
+                let folderName = prompt("Enter folder name").trim();
+                if(!folderName) {
+                    notify.show('Enter valid folder name!', 'error', 3000);
+                    break;
+                }
+                this.props.createFolder(`${this.props.dir}/${folderName}`, (done) => {
                     if(done) notify.show('Folder created successfully!', 'success');
                     else notify.show('Folder creation failure!', 'error');
                 });
