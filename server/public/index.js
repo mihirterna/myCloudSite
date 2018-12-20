@@ -9,7 +9,7 @@ const bp = require('body-parser');
 
 const app = express();
 app.use(helmet());
-app.use(bp.json());
+app.use(express.json());
 app.use(cors());
 
 // app.use(bp.urlencoded({extended: false}));

@@ -151,7 +151,7 @@ export const sAll = (data) => {
         checkedFiles.length = 0
         const payload = {
             boo: false,
-            sall: true,
+            sall: false,
             fNames: checkedFiles
         }
         return {
@@ -176,6 +176,27 @@ export const sAll = (data) => {
         }
     }
 }
+
+export const rename = (data, cb) => {
+    return (dispatch) => {
+        axios.post('http://localhost:5000/dir/rename',  {data} ).then(res => {
+            if (res.status === 200) {
+                cb(true)
+                const payload = {
+                    files: res.data,
+                    dir: data.dir
+                };
+                dispatch({
+                    type: DIR_CHANGED,
+                    payload
+                });
+            }
+        }).catch(error =>{ 
+            cb(false)
+            dirChangedFailed(dispatch, error)});
+    }
+}
+
 
 export const dilite = (data) => {
     return (dispatch) => {

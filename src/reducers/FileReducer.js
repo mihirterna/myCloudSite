@@ -11,7 +11,7 @@ const INITIAL_STATE = {
     mkdir:false,
     cb_val:false,
     checked_files: [],
-    sAll:false,
+    sAllFlag:false,
     head: "",
     dirList: [],
     dir: "",
@@ -30,9 +30,8 @@ export default (state = INITIAL_STATE, action) => {
         case MKDIR:
             return { ...state, mkdir: action.payload };
         case SHOW_CB:
-            return { ...state, cb_val:action.payload.boo, checked_files: action.payload.fNames, sAll:action.payload.sall };
+            return { ...state, cb_val:action.payload.boo, checked_files: action.payload.fNames, sAllFlag:action.payload.sall };
         case SORT:
-            console.log("SORT reducer")
             return{ ...state, files:action.payload.files };
         default:
             return state; //eslint-disable-next-line

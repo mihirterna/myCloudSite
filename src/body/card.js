@@ -113,7 +113,7 @@ class MediaControlCard extends Component {
         </div>
 
         <div>
-          <MenuFoldIcon />
+          <MenuFoldIcon n={this.props.d["name"]} />
         </div>
 
       </Card>

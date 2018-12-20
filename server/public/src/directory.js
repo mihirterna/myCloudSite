@@ -22,6 +22,46 @@ router.post('/new', (req, res) => {
     }
 });
 
+//For renaming
+router.post('/rename', (req, res, next) => {
+    //get folder name from parameter
+    const dir = req.body.data.dir;
+    const oldName = req.body.data.oldName;
+    const name = req.body.data.newName;
+    let fileList = []
+
+    if(fs.existsSync(dir+'/'+oldName)) {
+        fs.rename(dir+'/'+oldName, dir+'/'+name, (err) => {
+            if (err) throw err;
+          });
+
+    console.log(`Folder ${dir+'/'+name} renamed`);
+
+    fs.readdirSync(dir).forEach(file => {
+            //read a file's stats
+            try {
+			let stat = fs.statSync(dir + "/" + file);
+            fileList.push({
+                "name": file,
+                "size": stat.size,
+                "la": stat.atime,
+                "lm": stat.mtime,
+                "birth": stat.birthtime,
+                "type": stat.isFile() ? "f" : "d"
+            });
+			}
+			catch(e){
+				//console.log(e);
+			}
+    });
+    res.json(fileList);
+    }
+    else {
+        console.error("Folder doesnt exist!");
+        res.status(500).send();
+    }
+});
+
 //For directory listing
 router.post('/', (req, res) => {
     //get directory name from post request made by AuthAction.js

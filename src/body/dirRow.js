@@ -29,7 +29,8 @@ const mapStateToProps = state => {
         dir: state.file.dir,
         head: state.file.head,
         inp: state.file.mkdir,
-        files: state.file.files
+        files: state.file.files,
+        sAllFlag: state.file.sAllFlag
     };
 };
 
@@ -144,6 +145,7 @@ class DirRow extends Component {
     render() {
         const path = this.props.dir.split("/");
         const { anchorEl } = this.state;
+        console.log(this.props.sAllFlag);
         return (
             <div className="dirRow">
                 <h3 className="label">Directory -> </h3>
@@ -174,7 +176,7 @@ class DirRow extends Component {
                             <ListItemIcon>
                                 <SelectAll />
                             </ListItemIcon>
-                            <ListItemText inset primary="Select all" />
+                            {this.props.sAllFlag?<ListItemText inset primary="Unselect all" />:<ListItemText inset primary="Select all"/>}
                         </MenuItem>
                         <MenuItem
                             onClick={(e) => this.handleFileClick(e, 5)}>
