@@ -13,7 +13,7 @@ const mapStateToProps = state => {
     dir: state.file.dir,
     cb_val: state.file.cb_val,
     checked_files: state.file.checked_files,
-    sall: state.file.sAll
+    sall: state.file.sAllFlag
   };
 };
 
@@ -31,8 +31,6 @@ class MediaControlCard extends Component {
   foldClick() {
     if (this.props.cb_val) {
       const deta = {
-        name: this.props.d["name"],
-        delete: false,
         clear: true
       }
       this.props.show_cb(deta)
@@ -45,29 +43,31 @@ class MediaControlCard extends Component {
     this.props.dirChanged(data);
   }
 
-  // componentWillReceiveProps(newProp) {
-  //     this.props = newProp
+  componentWillReceiveProps(newProp) {
+      this.props = newProp
+
+      console.log("new prop");
   
-  //     this.setState({
-  //     isChecked: this.props.checked_files.includes(this.props.d["name"])})  
-    
-  // }
+      this.setState({
+      isChecked: this.props.checked_files.includes(this.props.d["name"])})  
+  }
 
   clickHandle() {
     const data = {
       name: this.props.d["name"]
     }
     this.props.show_cb(data)
-    // this.setState({
-    //   isChecked: this.props.checked_files.includes(this.props.d["name"])
-    // })
+    this.setState({
+      isChecked: this.props.checked_files.includes(this.props.d["name"])
+    })
   }
 
 
   retCB() {
     return (
       <Checkbox
-        checked={this.props.checked_files.includes(this.props.d["name"])||this.props.sall}
+        // checked={this.props.checked_files.includes(this.props.d["name"])||this.props.sall}
+        checked = {this.state.isChecked}
         onChange={this.clickHandle}
         value="checkedB"
         color="primary" />

@@ -31,28 +31,18 @@ export const show_cb = (data) => {
     else if (checkedFiles.includes(data.name)) checkedFiles.splice(checkedFiles.indexOf(data.name), 1)
     else checkedFiles.push(data.name)
 
-    if (Array.isArray(checkedFiles) && checkedFiles.length) {
-        const payload = {
+    const payload = {
             boo: true,
             sall: false,
             fNames: checkedFiles
-        }
-        return {
+    }
+    
+    console.log(checkedFiles);
+    return {
             type: SHOW_CB,
             payload
-        };
-    }
-    else {
-        const payload = {
-            boo: false,
-            sall: false,
-            fNames: checkedFiles
-        }
-        return {
-            type: SHOW_CB,
-            payload
-        };
-    }
+    };
+    
 
 };
 
