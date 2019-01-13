@@ -11,10 +11,8 @@ const mapStateToProps = state => {
   return {
     files: state.file.files,
     dir: state.file.dir,
-    head: state.file.head,
-    err: state.file.err,
     cb_val: state.file.cb_val,
-    ck_files: state.file.checked_files,
+    checked_files: state.file.checked_files,
     sall: state.file.sAll
   };
 };
@@ -24,7 +22,6 @@ class MediaControlCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      toShow: false,
       isChecked: false
     }
     this.clickHandle = this.clickHandle.bind(this)
@@ -48,38 +45,29 @@ class MediaControlCard extends Component {
     this.props.dirChanged(data);
   }
 
-  componentWillReceiveProps(newProp) {
-    // console.log("New props received ", this.props.sAll);
-    this.props = newProp
-    this.setState({
-      isChecked: this.props.ck_files.includes(this.props.d["name"])
-    })
-  }
-
-  componentDidUpdate(prevProp, newProp, snapshot) {
-    //console.log("component did mount", prevProp, " new -> ", newProp);
-    //if(prevProp.ck_files.includes(this.props.d["name"])!==newProp.ck_files.includes(this.props.d["name"])){
-    // this.setState({
-    //   isChecked: newProp.ck_files.includes(this.props.d["name"])
-    //  })
-    //}
-  }
+  // componentWillReceiveProps(newProp) {
+  //     this.props = newProp
+  
+  //     this.setState({
+  //     isChecked: this.props.checked_files.includes(this.props.d["name"])})  
+    
+  // }
 
   clickHandle() {
     const data = {
       name: this.props.d["name"]
     }
     this.props.show_cb(data)
-    this.setState({
-      isChecked: this.props.ck_files.includes(this.props.d["name"])
-    })
+    // this.setState({
+    //   isChecked: this.props.checked_files.includes(this.props.d["name"])
+    // })
   }
 
 
   retCB() {
     return (
       <Checkbox
-        checked={this.state.isChecked}
+        checked={this.props.checked_files.includes(this.props.d["name"])||this.props.sall}
         onChange={this.clickHandle}
         value="checkedB"
         color="primary" />

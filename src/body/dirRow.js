@@ -145,7 +145,6 @@ class DirRow extends Component {
     render() {
         const path = this.props.dir.split("/");
         const { anchorEl } = this.state;
-        console.log(this.props.sAllFlag);
         return (
             <div className="dirRow">
                 <h3 className="label">Directory -> </h3>

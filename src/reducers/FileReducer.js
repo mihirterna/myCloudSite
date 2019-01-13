@@ -30,6 +30,7 @@ export default (state = INITIAL_STATE, action) => {
         case MKDIR:
             return { ...state, mkdir: action.payload };
         case SHOW_CB:
+            console.log(action.payload.fNames);
             return { ...state, cb_val:action.payload.boo, checked_files: action.payload.fNames, sAllFlag:action.payload.sall };
         case SORT:
             return{ ...state, files:action.payload.files };

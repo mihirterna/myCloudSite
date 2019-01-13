@@ -31,7 +31,6 @@ export const show_cb = (data) => {
     else if (checkedFiles.includes(data.name)) checkedFiles.splice(checkedFiles.indexOf(data.name), 1)
     else checkedFiles.push(data.name)
 
-    console.log('AuthAct ', checkedFiles)
     if (Array.isArray(checkedFiles) && checkedFiles.length) {
         const payload = {
             boo: true,
@@ -56,6 +55,37 @@ export const show_cb = (data) => {
     }
 
 };
+
+export const sAll = (data) => {
+    if (data.length === checkedFiles.length) {
+        checkedFiles.length = 0
+        const payload = {
+            boo: false,
+            sall: false,
+            fNames: checkedFiles
+        }
+        return {
+            type: SHOW_CB,
+            payload
+        }
+    }
+    else {
+        for (const k in data) {
+            if (!checkedFiles.includes(data[k]["name"])) {
+                checkedFiles.push(data[k]["name"])
+            }
+        }
+        const payload = {
+            boo: true,
+            sall: true,
+            fNames: checkedFiles
+        }
+        return {
+            type: SHOW_CB,
+            payload
+        }
+    }
+}
 
 const dirChangedFailed = (dispatch, err) => {
     dispatch({
@@ -146,36 +176,6 @@ export const sort = (key, data) => {
     }
 }
 
-export const sAll = (data) => {
-    if (data.length === checkedFiles.length) {
-        checkedFiles.length = 0
-        const payload = {
-            boo: false,
-            sall: false,
-            fNames: checkedFiles
-        }
-        return {
-            type: SHOW_CB,
-            payload
-        }
-    }
-    else {
-        for (const k in data) {
-            if (!checkedFiles.includes(data[k]["name"])) {
-                checkedFiles.push(data[k]["name"])
-            }
-        }
-        const payload = {
-            boo: true,
-            sall: true,
-            fNames: checkedFiles
-        }
-        return {
-            type: SHOW_CB,
-            payload
-        }
-    }
-}
 
 export const rename = (data, cb) => {
     return (dispatch) => {
