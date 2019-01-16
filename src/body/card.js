@@ -6,6 +6,7 @@ import * as actions from '../actions';
 import Menuicon from './menuIcon';
 import '../CSS/card.css'
 import MenuFoldIcon from './menuFolderIcon'
+import MenuMultiFileIcon from './menuMultiFileIcon'
 
 const mapStateToProps = state => {
   return {
@@ -45,9 +46,6 @@ class MediaControlCard extends Component {
 
   componentWillReceiveProps(newProp) {
       this.props = newProp
-
-      console.log("new prop");
-  
       this.setState({
       isChecked: this.props.checked_files.includes(this.props.d["name"])})  
   }
@@ -71,7 +69,6 @@ class MediaControlCard extends Component {
         onChange={this.clickHandle}
         value="checkedB"
         color="primary" />
-
     )
   }
 
@@ -101,7 +98,9 @@ class MediaControlCard extends Component {
         </div>
 
         <div>
-          <MenuFoldIcon n={this.props.d["name"]} />
+          {
+            (this.props.checked_files.length < 2) ? <MenuFoldIcon n={this.props.d["name"]} /> : <MenuMultiFileIcon n={this.props.d["name"]} />
+          }
         </div>
 
       </Card>

@@ -27,23 +27,28 @@ export const headChanged = (text) => {
 };
 
 export const show_cb = (data) => {
+    let payload = {}
     if (data.clear) checkedFiles.length = 0
     else if (checkedFiles.includes(data.name)) checkedFiles.splice(checkedFiles.indexOf(data.name), 1)
     else checkedFiles.push(data.name)
 
-    const payload = {
+    if(checkedFiles.length === 0){
+        payload = {
+            boo: false,
+            sall: false,
+            fNames: checkedFiles
+    }}
+    else {
+        payload = {
             boo: true,
             sall: false,
             fNames: checkedFiles
-    }
-    
+    }}
     console.log(checkedFiles);
     return {
             type: SHOW_CB,
             payload
     };
-    
-
 };
 
 export const sAll = (data) => {

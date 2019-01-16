@@ -70,7 +70,7 @@ const mapStateToProps = state => {
         case 2:
         break
         case 3:
-        const url = "http://localhost:5000/dw/d?dir="+this.props.dir+"&f="+this.props.n
+        const url = "http://localhost:5000/dw/JWTSecretKey?dir="+this.props.dir+"&f="+this.props.n
         window.location.href = url
         break
         default:
