@@ -6,14 +6,13 @@ const share = require('./src/share');
 const express = require('express');
 const helmet = require('helmet'); //secures express apps by HTTP headers
 const cors = require('cors'); //provides cross-origin-resource-sharing utilities
-//const bp = require('body-parser');
+const bp = require('body-parser');
 
 const app = express();
 app.use(helmet());
 app.use(express.json());
 app.use(cors());
-
-// app.use(bp.urlencoded({extended: false}));
+app.use(bp.urlencoded({extended: true}));
 // app.use(express.json());
 
 app.use('/dir',dir);

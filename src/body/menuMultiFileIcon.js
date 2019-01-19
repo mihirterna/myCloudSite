@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {IconButton, 
     Menu,
     MenuItem,
@@ -10,20 +10,20 @@ import {IconButton,
     DialogContent,
     DialogTitle,
     Button} 
-from '@material-ui/core';
+from '@material-ui/core'
 import {MoreVert,} from '@material-ui/icons'
-import * as actions from '../actions';
-import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import { FaFileDownload, FaShareAlt } from 'react-icons/fa';
-import axios from 'axios'
+import * as actions from '../actions'
+import { connect } from 'react-redux'
+import { withStyles } from '@material-ui/core/styles'
+import { FaFileDownload, FaShareAlt } from 'react-icons/fa'
 
 
 const mapStateToProps = state => {
     return {
         files: state.file.files,
         dir: state.file.dir,
-        checkedFiles: state.file.checked_files
+        checkedFiles: state.file.checked_files,
+        download_link: state.file.download_link
     };
   };
 
@@ -69,44 +69,55 @@ const mapStateToProps = state => {
     menuActions(val){
       switch(val){
         case 1:
-            this.setState({
-                fileName: true
-            })
-
+            this.setState({fileName: true})
             break
+
         case 2:
+            const data3 = {
+                dir : this.props.dir,
+                cfs : this.props.n,
+                zipName : this.props.n
+            }
+            this.props.downloadZip(data3)
         break
+
         case 3:
-        if(this.state.fileName){
-            this.setState({
-            fileName: false
-            })}
-        const data = {
-            dir : this.props.dir,
-            cfs : this.props.checkedFiles,
-            zipName : this.state.name
-        }
-        axios.post('http://localhost:5000/shr/', data).then(res => {
-            if (res.status === 200) {
-                console.log("Success");
+            if(this.state.fileName){
+                this.setState({
+                fileName: false
+                })}
+            const data = {
+                dir : this.props.dir,
+                cfs : this.props.checkedFiles,
+                zipName : this.state.name
             }
-            else if (res.status === 500) {
-                console.log("error ", res);
-            }
-        }).catch(err => {
-            console.log("error ", err);
-        });
+            this.props.shareDownloadLink(data,(done)=>{
+                if(done) console.log(this.props.download_link);
+                else console.log("error share link ");
+            })
+            
+            // axios.post('http://localhost:5000/shr/link', data).then(res => {
+            //     if (res.status === 200) {
+            //         console.log("Success");
+            //     }
+            //     else if (res.status === 500) {
+            //         console.log("error ", res);
+            //     }
+            // }).catch(err => {
+            //     console.log("error ", err);
+            // });
         break
+
         case 4:
-        if(this.state.fileName){
-            this.setState({
-            fileName: false
-            })}
+        if(this.state.fileName) this.setState({fileName: false})
         break
+
         case 5:
         break
+
         default:
       }
+      if(this.state.anchorEl) this.setState({anchorEl: null})
     }
     
     handleChange = (event) => {
@@ -150,7 +161,7 @@ const mapStateToProps = state => {
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
                     >
-                        <DialogTitle id="alert-dialog-title">Name zip file -> {this.props.dir}</DialogTitle>
+                        <DialogTitle id="alert-dialog-title">Number of select files => {this.props.checkedFiles.length}</DialogTitle>
                         <DialogContent>
                             <TextField
                                 id="standard-name"

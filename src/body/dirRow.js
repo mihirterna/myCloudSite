@@ -81,10 +81,11 @@ class DirRow extends Component {
                 break
 
             case 2:
-                console.log("handleFIleCLick ")
                 if (this.state.fileUploadFlag) {
-                    console.log("making dir req");
-                    this.props.dirChanged(this.props.dir)
+                    const d = {
+                        dir: this.props.dir
+                    }
+                    this.props.dirChanged(d)
                     this.setState({ fileUploadFlag: false })
                 }
                 break

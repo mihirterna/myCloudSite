@@ -4,7 +4,8 @@ import {
     MKDIR,
     SHOW_CB,
     SORT,
-    LOGIN_FAILED
+    LOGIN_FAILED,
+    SHARE_LINK
 } from './types';
 import axios from 'axios';
 import _ from 'lodash';
@@ -44,11 +45,12 @@ export const show_cb = (data) => {
             sall: false,
             fNames: checkedFiles
     }}
-    console.log(checkedFiles);
-    return {
+    //console.log(checkedFiles);
+    return (dispatch) =>
+        dispatch({
             type: SHOW_CB,
             payload
-    };
+        });
 };
 
 export const sAll = (data) => {
@@ -59,10 +61,11 @@ export const sAll = (data) => {
             sall: false,
             fNames: checkedFiles
         }
-        return {
+        return (dispatch) =>
+        dispatch({
             type: SHOW_CB,
             payload
-        }
+        })
     }
     else {
         for (const k in data) {
@@ -75,10 +78,11 @@ export const sAll = (data) => {
             sall: true,
             fNames: checkedFiles
         }
-        return {
+        return (dispatch) =>
+        dispatch({
             type: SHOW_CB,
             payload
-        }
+        })
     }
 }
 
@@ -110,6 +114,54 @@ export const createFolder = (name, cb) => {
             cb(false);
         });
 };
+
+export const shareDownloadLink = (data,cb) => {
+    return (dispatch) =>
+    axios.post('http://localhost:5000/shr/link', data).then(res => {
+        if (res.status === 200) {
+            
+            const payload = {
+                dir: res.data.dir,
+                fName: res.data.fName,
+                link: "http://localhost:5000/dw/tmp?dir="+res.data.dir+"&f="+res.data.fName
+            }
+            dispatch({
+                type: SHARE_LINK,
+                payload
+            })
+            cb(true)
+        }
+        else if (res.status === 500) {
+            cb(false)
+            console.log("error ", res);
+        }
+    }).catch(err => {
+        cb(false)
+        console.log("error ", err);
+    });
+}
+
+export const downloadZip = (data) => {
+    return (dispatch) =>
+    axios.post('http://localhost:5000/shr/link', data).then(res => {
+        if (res.status === 200) {
+            const url = "http://localhost:5000/dw/tmp?dir="+res.data.dir+"&f="+res.data.fName
+            window.location.href = url
+            const payload = {
+                link: "link"
+            }
+            dispatch({
+                type: SHARE_LINK,
+                payload
+            })
+        }
+        else if (res.status === 500) {
+            console.log("error ", res);
+        }
+    }).catch(err => {
+        console.log("error ", err);
+    });
+}
 
 export const dirChanged = (data) => {
     return (dispatch) => {

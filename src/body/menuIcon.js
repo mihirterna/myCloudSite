@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
-import {IconButton, Menu, MenuItem,ListItemIcon,ListItemText} from '@material-ui/core';
+import {IconButton, 
+  Menu, 
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button} 
+  from '@material-ui/core';
 import {MoreVert,} from '@material-ui/icons'
 import * as actions from '../actions';
 import { connect } from 'react-redux';
@@ -35,43 +46,84 @@ const mapStateToProps = state => {
         this.handleClick = this.handleClick.bind(this)
         this.handleClose = this.handleClose.bind(this)
         this.menuActions = this.menuActions.bind(this)
+        this.handleChange = this.handleChange.bind(this)
         this.state = {
             anchorEl: null,
-            classes: props
+            classes: props,
+            fileName: false,
+            name: ""
           }
         
       }
 
     handleClick(event) {
-        this.setState({ anchorEl: event.currentTarget });
+      this.setState({ anchorEl: event.currentTarget });
     }
     handleClose(){
-        this.setState({ anchorEl: null });
-      };
+      this.setState({ anchorEl: null });
+    };
+    handleChange = (event) => {
+      this.setState({ name: event.target.value})
+    }
 
     menuActions(val){
       switch(val){
         case 1:
-          let folderName = prompt("Enter new name").trim();
-          if(!folderName) {
-              notify.show('Enter valid folder name!', 'error', 3000);
-              break;
-          }
-          const data = {
-            dir: this.props.dir,
-            oldName: this.props.n,
-            newName: folderName
-          }
-          this.props.rename(data, (done) => {
-            if(done) notify.show('Renamed successfully!', 'success');
-            else notify.show('Rename failure!', 'error');
-        });
+          this.setState({fileName: true, name: this.props.n})
+
+        //   let folderName = prompt("Enter new name").trim();
+        //   if(!folderName) {
+        //       notify.show('Enter valid folder name!', 'error', 3000);
+        //       break;
+        //   }
+        //   const data = {
+        //     dir: this.props.dir,
+        //     oldName: this.props.n,
+        //     newName: folderName
+        //   }
+        //   this.props.rename(data, (done) => {
+        //     if(done) notify.show('Renamed successfully!', 'success');
+        //     else notify.show('Rename failure!', 'error');
+        // });
         break
         case 2:
         break
         case 3:
         const url = "http://localhost:5000/dw/JWTSecretKey?dir="+this.props.dir+"&f="+this.props.n
-        window.location.href = url
+        //window.location.href = url
+
+        var form = document.createElement('form');
+        document.body.appendChild(form);
+        form.method = 'post';
+        form.action = url;
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = this.props.n;
+            input.value = this.props.dir;
+            form.appendChild(input);
+        
+        form.submit();
+
+        break
+        case 4:
+          if(this.state.name === ""){
+            notify.show('Enter valid name')
+            break
+          }
+          const data = {
+            dir: this.props.dir,
+            oldName: this.props.n,
+            newName: this.state.name
+          }
+          this.props.rename(data, (done) => {
+            if(done) notify.show('Renamed successfully!', 'success');
+            else notify.show('Rename failure!', 'retry');
+          });
+          if (this.state.anchorEl) this.setState({anchorEl: null})
+
+        break
+        case 5:
+        if (this.state.fileName) this.setState({fileName: false})
         break
         default:
       }
@@ -105,6 +157,29 @@ const mapStateToProps = state => {
                 </ListItemIcon>
                 <ListItemText classes={{ primary: this.state.classes.primary }} inset primary="Rename" />
               </MenuItem>
+
+              <Dialog
+                        open={this.state.fileName}
+                        onClose={(e) => this.menuActions(5)}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">Rename Dialog</DialogTitle>
+                        <DialogContent>
+                            <TextField
+                                id="standard-name"
+                                label="New filename"
+                                value={this.state.name}
+                                onChange={this.handleChange}
+                                margin="normal"/>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={(e) => this.menuActions(4)} color="primary" autoFocus>
+                                Okay
+                            </Button>
+                        </DialogActions>
+                </Dialog>
+
               <MenuItem className={this.state.classes.menuItem} onClick={()=> this.menuActions(2)}>
                   <ListItemIcon className={this.state.classes.icon}>
                     <FaShareAlt />

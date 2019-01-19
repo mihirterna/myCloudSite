@@ -12,3 +12,4 @@ export const MKDIR = 'mkdir';
 export const DIR_CHANGED = 'dir_changed';
 export const SHOW_CB = 'show_cb';
 export const SORT = "sort";
+export const SHARE_LINK = "share_link"

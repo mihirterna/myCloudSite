@@ -4,7 +4,8 @@ import {
     MKDIR,
     SHOW_CB,
     SORT,
-    LOGIN_SUCCESS
+    LOGIN_SUCCESS,
+    SHARE_LINK
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -17,6 +18,7 @@ const INITIAL_STATE = {
     dir: "",
     files: "",
     fName: "",
+    download_link: ""
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -33,6 +35,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, cb_val:action.payload.boo, checked_files: action.payload.fNames, sAllFlag:action.payload.sall };
         case SORT:
             return{ ...state, files:action.payload.files };
+        case SHARE_LINK:
+            return{...state, download_link:action.payload.link}
         default:
             return state; //eslint-disable-next-line
     };

@@ -3,7 +3,7 @@ const router = express.Router();
 var fs = require('fs');
 var archiver = require('archiver');
 
-router.post('/', function (req, res) {
+router.post('/link', function (req, res) {
     var output = fs.createWriteStream(req.body.dir+ "/" + req.body.zipName + ".zip");
     
     var archive = archiver('zip', {
@@ -13,6 +13,11 @@ router.post('/', function (req, res) {
     output.on('close', function() {
         console.log(archive.pointer() + ' total bytes');
         console.log(req.body.dir +"/"+ req.body.zipName + ".zip",'archiver has been finalized and the output file descriptor has closed.');
+        const reply = {
+            dir: req.body.dir,
+            fName: req.body.zipName+".zip"
+        }
+        res.json(reply);
     });
 
     archive.on('warning', function(err) {
@@ -31,28 +36,35 @@ router.post('/', function (req, res) {
 
     archive.pipe(output);
 
-    for (var i=0; i<req.body.cfs.length; i++){
-        try{
-            if(fs.lstatSync(req.body.dir+"/"+req.body.cfs[i]).isDirectory()){
-                archive.directory(req.body.dir+"/"+req.body.cfs[i],req.body.cfs[i]);
+    if(Array.isArray(req.body.cfs))
+    {
+        for (var i=0; i<req.body.cfs.length; i++){
+            try{
+                if(fs.lstatSync(req.body.dir+"/"+req.body.cfs[i]).isDirectory()){
+                    archive.directory(req.body.dir+"/"+req.body.cfs[i],req.body.cfs[i]);
+                }
+                else if(fs.lstatSync(req.body.dir+"/"+req.body.cfs[i]).isFile()){
+                    archive.file(req.body.dir+"/"+req.body.cfs[i],{ name:req.body.cfs[i]});
+                }            
+            }catch(e){
+            // Handle error
+            if(e.code == 'ENOENT'){
+                //no such file or directory
+                //do something
+                console.log("ENOENT ",e);
+            }else {
+                console.log("err ",e);
+                //do something else
             }
-            else if(fs.lstatSync(req.body.dir+"/"+req.body.cfs[i]).isFile()){
-                archive.file(req.body.dir+"/"+req.body.cfs[i],{ name:req.body.cfs[i]});
-            }            
-        }catch(e){
-          // Handle error
-          if(e.code == 'ENOENT'){
-            //no such file or directory
-            //do something
-            console.log("ENOENT ",e);
-          }else {
-              console.log("err ",e);
-            //do something else
-          }
-       }       
+        }       
+        }
     }
+    else{
+        archive.directory(req.body.dir+"/"+req.body.cfs, false);
+    }
+
     archive.finalize();
-    res.json("Done");
+    
 });
 
 module.exports = router;
