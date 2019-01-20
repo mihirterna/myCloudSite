@@ -18,13 +18,13 @@ class FileMap extends Component {
             <div>
                 <DirRow />
                 <div>
-                {_.map(this.props.files, (value, key) => {
-                                return <div key={key}>
-                                    <Card
-                                        d={value}
-                                        k={key} />
-                                </div>;
-                            })}
+                    {_.map(this.props.files, (value, key) => {
+                        return <div key={key}>
+                            <Card
+                                d={value}
+                                k={key} />
+                        </div>;
+                    })}
                     {/* _.map(
                         _.sortBy(
                             _.filter(this.props.files, o => {

@@ -124,6 +124,8 @@ const mapStateToProps = state => {
         break
         case 5:
         if (this.state.fileName) this.setState({fileName: false})
+        if (this.state.anchorEl) this.setState({anchorEl: null})
+
         break
         default:
       }

@@ -104,12 +104,12 @@ class DirRow extends Component {
 
             case 6:
                 let folderName = prompt("Enter folder name").trim();
-                if(!folderName) {
+                if (!folderName) {
                     notify.show('Enter valid folder name!', 'error', 3000);
                     break;
                 }
                 this.props.createFolder(`${this.props.dir}/${folderName}`, (done) => {
-                    if(done) notify.show('Folder created successfully!', 'success');
+                    if (done) notify.show('Folder created successfully!', 'success');
                     else notify.show('Folder creation failure!', 'error');
                 });
                 break;
@@ -119,25 +119,25 @@ class DirRow extends Component {
     }
 
     handleSortChange(val) {
-        switch(val){
+        switch (val) {
             case 1:
-            this.props.sort(1, this.props.files)
-            break
+                this.props.sort(1, this.props.files)
+                break
             case 2:
-            this.props.sort(2, this.props.files)
-            break
+                this.props.sort(2, this.props.files)
+                break
             case 3:
-            this.props.sort(3, this.props.files)
-            break
+                this.props.sort(3, this.props.files)
+                break
             case 4:
-            this.props.sort(4, this.props.files)
-            break
+                this.props.sort(4, this.props.files)
+                break
             case 5:
-            this.props.sort(5, this.props.files)
-            break
+                this.props.sort(5, this.props.files)
+                break
             case 6:
-            this.props.sort(6, this.props.files)
-            break
+                this.props.sort(6, this.props.files)
+                break
             default:
         }
         if (this.state.sortMenuFlag) this.setState({ sortMenuFlag: false })
@@ -176,7 +176,7 @@ class DirRow extends Component {
                             <ListItemIcon>
                                 <SelectAll />
                             </ListItemIcon>
-                            {this.props.sAllFlag?<ListItemText inset primary="Unselect all" />:<ListItemText inset primary="Select all"/>}
+                            {this.props.sAllFlag ? <ListItemText inset primary="Unselect all" /> : <ListItemText inset primary="Select all" />}
                         </MenuItem>
                         <MenuItem
                             onClick={(e) => this.handleFileClick(e, 5)}>

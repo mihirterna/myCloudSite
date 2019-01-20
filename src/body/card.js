@@ -45,9 +45,10 @@ class MediaControlCard extends Component {
   }
 
   componentWillReceiveProps(newProp) {
-      this.props = newProp
-      this.setState({
-      isChecked: this.props.checked_files.includes(this.props.d["name"])})  
+    this.props = newProp
+    this.setState({
+      isChecked: this.props.checked_files.includes(this.props.d["name"])
+    })
   }
 
   clickHandle() {
@@ -65,7 +66,7 @@ class MediaControlCard extends Component {
     return (
       <Checkbox
         // checked={this.props.checked_files.includes(this.props.d["name"])||this.props.sall}
-        checked = {this.state.isChecked}
+        checked={this.state.isChecked}
         onChange={this.clickHandle}
         value="checkedB"
         color="primary" />

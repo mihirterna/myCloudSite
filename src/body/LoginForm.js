@@ -73,7 +73,7 @@ class LoginForm extends Component {
     }
 
     render() {
-        return(
+        return (
             <div className="wrapper">
                 <h2>Login</h2>
                 {this.alertError()}

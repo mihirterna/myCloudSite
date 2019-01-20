@@ -9,10 +9,10 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-    mkdir:false,
-    cb_val:false,
+    mkdir: false,
+    cb_val: false,
     checked_files: [],
-    sAllFlag:false,
+    sAllFlag: false,
     head: "",
     dirList: [],
     dir: "",
@@ -22,7 +22,7 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case LOGIN_SUCCESS:
             return { ...state, files: action.payload.d, dir: action.payload.dir };
         case HEAD_CHANGED:
@@ -32,11 +32,11 @@ export default (state = INITIAL_STATE, action) => {
         case MKDIR:
             return { ...state, mkdir: action.payload };
         case SHOW_CB:
-            return { ...state, cb_val:action.payload.boo, checked_files: action.payload.fNames, sAllFlag:action.payload.sall };
+            return { ...state, cb_val: action.payload.boo, checked_files: action.payload.fNames, sAllFlag: action.payload.sall };
         case SORT:
-            return{ ...state, files:action.payload.files };
+            return { ...state, files: action.payload.files };
         case SHARE_LINK:
-            return{...state, download_link:action.payload.link}
+            return { ...state, download_link: action.payload.link }
         default:
             return state; //eslint-disable-next-line
     };

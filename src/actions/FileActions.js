@@ -33,18 +33,20 @@ export const show_cb = (data) => {
     else if (checkedFiles.includes(data.name)) checkedFiles.splice(checkedFiles.indexOf(data.name), 1)
     else checkedFiles.push(data.name)
 
-    if(checkedFiles.length === 0){
+    if (checkedFiles.length === 0) {
         payload = {
             boo: false,
             sall: false,
             fNames: checkedFiles
-    }}
+        }
+    }
     else {
         payload = {
             boo: true,
             sall: false,
             fNames: checkedFiles
-    }}
+        }
+    }
     //console.log(checkedFiles);
     return (dispatch) =>
         dispatch({
@@ -62,10 +64,10 @@ export const sAll = (data) => {
             fNames: checkedFiles
         }
         return (dispatch) =>
-        dispatch({
-            type: SHOW_CB,
-            payload
-        })
+            dispatch({
+                type: SHOW_CB,
+                payload
+            })
     }
     else {
         for (const k in data) {
@@ -79,10 +81,10 @@ export const sAll = (data) => {
             fNames: checkedFiles
         }
         return (dispatch) =>
-        dispatch({
-            type: SHOW_CB,
-            payload
-        })
+            dispatch({
+                type: SHOW_CB,
+                payload
+            })
     }
 }
 
@@ -94,7 +96,7 @@ const dirChangedFailed = (dispatch, err) => {
 };
 
 export const createFolder = (name, cb) => {
-    return (dispatch) => 
+    return (dispatch) =>
         axios.post('http://localhost:5000/dir/new', { name }).then(res => {
             if (res.status === 200) {
                 cb(true);
@@ -115,52 +117,52 @@ export const createFolder = (name, cb) => {
         });
 };
 
-export const shareDownloadLink = (data,cb) => {
+export const shareDownloadLink = (data, cb) => {
     return (dispatch) =>
-    axios.post('http://localhost:5000/shr/link', data).then(res => {
-        if (res.status === 200) {
-            
-            const payload = {
-                dir: res.data.dir,
-                fName: res.data.fName,
-                link: "http://localhost:5000/dw/tmp?dir="+res.data.dir+"&f="+res.data.fName
+        axios.post('http://localhost:5000/shr/link', data).then(res => {
+            if (res.status === 200) {
+
+                const payload = {
+                    dir: res.data.dir,
+                    fName: res.data.fName,
+                    link: "http://localhost:5000/dw/tmp?dir=" + res.data.dir + "&f=" + res.data.fName
+                }
+                dispatch({
+                    type: SHARE_LINK,
+                    payload
+                })
+                cb(true)
             }
-            dispatch({
-                type: SHARE_LINK,
-                payload
-            })
-            cb(true)
-        }
-        else if (res.status === 500) {
+            else if (res.status === 500) {
+                cb(false)
+                console.log("error ", res);
+            }
+        }).catch(err => {
             cb(false)
-            console.log("error ", res);
-        }
-    }).catch(err => {
-        cb(false)
-        console.log("error ", err);
-    });
+            console.log("error ", err);
+        });
 }
 
 export const downloadZip = (data) => {
     return (dispatch) =>
-    axios.post('http://localhost:5000/shr/link', data).then(res => {
-        if (res.status === 200) {
-            const url = "http://localhost:5000/dw/tmp?dir="+res.data.dir+"&f="+res.data.fName
-            window.location.href = url
-            const payload = {
-                link: "link"
+        axios.post('http://localhost:5000/shr/link', data).then(res => {
+            if (res.status === 200) {
+                const url = "http://localhost:5000/dw/tmp?dir=" + res.data.dir + "&f=" + res.data.fName
+                window.location.href = url
+                const payload = {
+                    link: "link"
+                }
+                dispatch({
+                    type: SHARE_LINK,
+                    payload
+                })
             }
-            dispatch({
-                type: SHARE_LINK,
-                payload
-            })
-        }
-        else if (res.status === 500) {
-            console.log("error ", res);
-        }
-    }).catch(err => {
-        console.log("error ", err);
-    });
+            else if (res.status === 500) {
+                console.log("error ", res);
+            }
+        }).catch(err => {
+            console.log("error ", err);
+        });
 }
 
 export const dirChanged = (data) => {
@@ -187,25 +189,25 @@ export const sort = (key, data) => {
             console.log(files);
             break
         case 2:
-            files = _.sortBy(data,[ function (o) { return o.name; }]);
+            files = _.sortBy(data, [function (o) { return o.name; }]);
             files = files.reverse()
             console.log(files);
             break
         case 3:
-            files = _.sortBy(data,[ function (o) { return o.size; }]);
+            files = _.sortBy(data, [function (o) { return o.size; }]);
             console.log(files);
             break
         case 4:
-            files = _.sortBy(data,[ function (o) { return o.size; }]);
+            files = _.sortBy(data, [function (o) { return o.size; }]);
             files = files.reverse()
             console.log(files);
             break
         case 5:
-            files = _.sortBy(data,[ function (o) { return o.lm; }]);
+            files = _.sortBy(data, [function (o) { return o.lm; }]);
             console.log(files);
             break
         case 6:
-            files = _.sortBy(data,[ function (o) { return o.lm; }]);
+            files = _.sortBy(data, [function (o) { return o.lm; }]);
             files = files.reverse()
             console.log(files);
             break
@@ -226,7 +228,7 @@ export const sort = (key, data) => {
 
 export const rename = (data, cb) => {
     return (dispatch) => {
-        axios.post('http://localhost:5000/dir/rename',  {data} ).then(res => {
+        axios.post('http://localhost:5000/dir/rename', { data }).then(res => {
             if (res.status === 200) {
                 cb(true)
                 const payload = {
@@ -238,9 +240,10 @@ export const rename = (data, cb) => {
                     payload
                 });
             }
-        }).catch(error =>{ 
+        }).catch(error => {
             cb(false)
-            dirChangedFailed(dispatch, error)});
+            dirChangedFailed(dispatch, error)
+        });
     }
 }
 
