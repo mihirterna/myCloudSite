@@ -44,7 +44,7 @@ const loginUserFailed = (dispatch, err) => {
 
 export const loginUser = (data) => {
     return (dispatch) => {
-        axios.post('http://localhost:5000/dir', { data })
+        axios.post('https://localhost:5000/dir', { data })
             .then(res => {
                 const deta = { d: res.data, head: data.head, dir: data.dir }
                 if (res.status === 200) loginUserSuccess(dispatch, deta);
