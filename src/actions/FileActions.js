@@ -167,7 +167,7 @@ export const downloadZip = (data) => {
 
 export const dirChanged = (data) => {
     return (dispatch) => {
-        axios.post('https://localhost:5000/dir', { data }).then(res => {
+        axios.post('http://localhost:5000/dir', data).then(res => {
             if (res.status === 200) {
                 const payload = {
                     files: res.data,

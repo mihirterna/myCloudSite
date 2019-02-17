@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 router.post('/new', (req, res) => {
     //get folder name from parameter
     const name = req.body.name;
-    if(!fs.existsSync(name)) {
+    if (!fs.existsSync(name)) {
         fs.mkdirSync(name);
         console.log(`Folder ${name} created`);
         res.status(200).send();
@@ -30,31 +30,31 @@ router.post('/rename', (req, res, next) => {
     const name = req.body.data.newName;
     let fileList = []
 
-    if(fs.existsSync(dir+'/'+oldName)) {
-        fs.rename(dir+'/'+oldName, dir+'/'+name, (err) => {
+    if (fs.existsSync(dir + '/' + oldName)) {
+        fs.rename(dir + '/' + oldName, dir + '/' + name, (err) => {
             if (err) throw err;
-          });
+        });
 
-    console.log(`Folder ${dir+'/'+name} renamed`);
+        console.log(`Folder ${dir + '/' + name} renamed`);
 
-    fs.readdirSync(dir).forEach(file => {
+        fs.readdirSync(dir).forEach(file => {
             //read a file's stats
             try {
-			let stat = fs.statSync(dir + "/" + file);
-            fileList.push({
-                "name": file,
-                "size": stat.size,
-                "la": stat.atime,
-                "lm": stat.mtime,
-                "birth": stat.birthtime,
-                "type": stat.isFile() ? "f" : "d"
-            });
-			}
-			catch(e){
-				//console.log(e);
-			}
-    });
-    res.json(fileList);
+                let stat = fs.statSync(dir + "/" + file);
+                fileList.push({
+                    "name": file,
+                    "size": stat.size,
+                    "la": stat.atime,
+                    "lm": stat.mtime,
+                    "birth": stat.birthtime,
+                    "type": stat.isFile() ? "f" : "d"
+                });
+            }
+            catch (e) {
+                //console.log(e);
+            }
+        });
+        res.json(fileList);
     }
     else {
         console.error("Folder doesnt exist!");
@@ -65,16 +65,16 @@ router.post('/rename', (req, res, next) => {
 //For directory listing
 router.post('/', (req, res) => {
     //get directory name from post request made by AuthAction.js
-    const dir = req.body.data.dir;
+    const dir = req.body.dir;
     let fileList = [];
 
     //read all files from given dir synchronously
     console.log("Sending directory file listing.");
-   
-        fs.readdirSync(dir).forEach(file => {
-            //read a file's stats
-            try {
-			let stat = fs.statSync(dir + "/" + file);
+
+    fs.readdirSync(dir).forEach(file => {
+        //read a file's stats
+        try {
+            let stat = fs.statSync(dir + "/" + file);
             fileList.push({
                 "name": file,
                 "size": stat.size,
@@ -83,12 +83,12 @@ router.post('/', (req, res) => {
                 "birth": stat.birthtime,
                 "type": stat.isFile() ? "f" : "d"
             });
-			}
-			catch(e){
-				//console.log(e);
-			}
-        });
-        res.json(fileList);
+        }
+        catch (e) {
+            //console.log(e);
+        }
+    });
+    res.json(fileList);
 });
 
 module.exports = router;

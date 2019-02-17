@@ -58,6 +58,7 @@ class FileActions extends Component {
                     allowMultiple={true}
                     instantUpload={true}
                     allowRevert={false}
+                    
                     oninit={() => this.handleInit()}
                     onupdatefiles={(fileItems) => {
                         // Set current file objects to this.state
@@ -74,6 +75,7 @@ class FileActions extends Component {
                             const data = new FormData()
                             data.append('file', file)
                             axios.post('http://localhost:5000/up/encryptedKey?dir=' + this.props.dir, data, config).then(res => {
+                                console.log(res)
                                 load("closing pond, should pass something here :D");
                             })
                         }
@@ -81,9 +83,9 @@ class FileActions extends Component {
                 >
 
                     {/* Update current files  */}
-                    {this.state.files.map(file => (
+                    {/* this.state.files.map(file => (
                         <File key={file} src={file} origin="local" />
-                    ))}
+                    )) */}
 
                 </FilePond>
 

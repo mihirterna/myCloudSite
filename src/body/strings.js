@@ -1,2 +1,2 @@
 //export const ROOT = '/home/dhanesh';
-export const ROOT = 'E:/';
+export const ROOT = '/home/mihir/Desktop';
